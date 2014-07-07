@@ -1,1 +1,1 @@
-web: sudo ./run ${PORT}
+web: ./run ${PORT}
