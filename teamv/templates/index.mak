@@ -1,23 +1,9 @@
 <%inherit file="wrapper.mak" />
-
-<h1>Socket.io Chatterbox</h1>
-<div id="status" class="border">Disconnected</div>
-<form id="login">
-    <label for="login-input">Login:</label>
-    <input id="login-input">
+<h1>Chat Log</h1>
+<div id="chatlog"></div>
+<br />
+<form id="chat_form">
+    <input type="text" id="chatbox"></input>
+    <button type="submit" id="submit">Send</button>
 </form>
-<div>
-    <div class="border left">
-        <h3>Nicks</h3>
-        <ul id="nicks">
-        </ul>
-    </div>
-    <div class="border right">
-        <form id="chat">
-            <label for="chat-input">Chat:</label>
-            <input id="chat-input">
-        </form>
-        <div id="chat-data">
-        </div>
-    </div>
-</div>
+<button id='join'>join</button>
