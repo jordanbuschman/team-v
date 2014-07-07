@@ -10,9 +10,8 @@ requires = [
     'paste',
     'pyramid',
     'pyramid_mako',
-    'waitress',
-    'gevent',
-    'gevent-socketio',
+    'gevent-websocket',
+    'gevent-socketio'
     ]
 
 setup(name='team-v',

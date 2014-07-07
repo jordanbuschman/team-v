@@ -1,7 +1,6 @@
 import os, socket, select
 
 from paste.deploy import loadapp
-from waitress import serve
 from socketio.server import SocketIOServer
 
 if __name__ == "__main__":
