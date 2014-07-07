@@ -1,7 +1,7 @@
 from socketio.namespace import BaseNamespace
 from socketio.mixins import BroadcastMixin
 
-import os
+import os, time, datetime
 
 class NamedUsersRoomsMixin(BroadcastMixin):
     def __init__(self, *args, **kwargs):
@@ -36,7 +36,10 @@ class NamedUsersRoomsMixin(BroadcastMixin):
 
 class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def on_chat(self, msg):
-        self.broadcast_event('chat', msg)
+        current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
+        self.broadcast_event('chat', '({0}) : {1}'.format(current_time, msg))
+        with open("transcript.txt", "a") as f:
+            f.write('({0}) : {1}\n'.format(current_time, msg))
 
     def recv_connect(self):
         self.broadcast_event('user_connect')
