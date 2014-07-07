@@ -38,20 +38,20 @@ class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def on_chat(self, msg):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('chat', '({0}) : {1}'.format(current_time, msg))
-        with open("transcript.txt", "a") as f:
+        with open("transcript.log", "a") as f:
             f.write('({0}) : {1}\n'.format(current_time, msg))
 
     def recv_connect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_connect')
-        with open("transcript.txt", "a") as f:
+        with open("transcript.log", "a") as f:
             f.write('({0}) : User connected\n'.format(current_time))
 
     def recv_disconnect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_disconnect')
         self.disconnect(silent=True)
-        with open("transcript.txt", "a") as f:
+        with open("transcript.log", "a") as f:
             f.write('({0}) : User disconnected\n'.format(current_time))
 
     def on_join(self, channel):
