@@ -5,5 +5,7 @@ from socketio.server import SocketIOServer
 
 if __name__ == "__main__":
     open('transcript.log', 'w').close() # Make sure transcript is created and empty
+
+    port = int(os.environ.get("PORT", 5000))
     app = loadapp('config:production.ini', relative_to='.')
-    SocketIOServer(('0.0.0.0', 5000), app, resource="socket.io").serve_forever()
+    SocketIOServer(('0.0.0.0', port), app, resource="socket.io").serve_forever()
