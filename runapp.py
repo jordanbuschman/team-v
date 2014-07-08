@@ -1,5 +1,3 @@
-import os, socket, select
-
 from pyramid.paster import get_app
 from socketio.server import SocketIOServer
 
