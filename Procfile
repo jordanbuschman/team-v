@@ -1,1 +1,1 @@
-web: ./run ${PORT}
+web: ./run -p $PORT
