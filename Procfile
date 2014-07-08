@@ -1,1 +1,1 @@
-web: python runapp.py ${PORT}
+web: ./run ${PORT}

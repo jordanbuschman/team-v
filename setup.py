@@ -7,7 +7,6 @@ with open(os.path.join(here, 'README.txt')) as f:
     README = f.read()
 
 requires = [
-    'team-v',
     'paste',
     'pyramid',
     'pyramid_mako',
