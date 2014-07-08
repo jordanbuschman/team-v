@@ -14,7 +14,7 @@ requires = [
     'gevent-socketio'
     ]
 
-setup(name='team-v',
+setup(name='teamv',
       version='0.0',
       description='Team Valente',
       long_description=README,
@@ -28,7 +28,7 @@ setup(name='team-v',
       author_email='',
       url='team-v.herokuapp.com',
       keywords='web pyramid pylons',
-      packages=['team-v'],'''find_packages(),'''
+      packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
