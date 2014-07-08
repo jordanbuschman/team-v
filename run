@@ -1,4 +1,4 @@
 #!/bin/bash
 
 python setup.py develop
-python runapp.py
+python runapp.py heroku_port=$PORT
