@@ -6,4 +6,3 @@
     <input type="text" id="chatbox"></input>
     <button type="submit" id="submit">Send</button>
 </form>
-<button id='join'>join</button>

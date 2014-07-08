@@ -19,15 +19,8 @@ $(document).ready(function() {
 
     $("#chat_form").submit(function(e) {
         e.preventDefault();
-
         var val = $("#chatbox").val();
-
         socket.emit("chat", val);
-
         $("#chatbox").val("");
     });
-
-    $("#join").click(function(e) {
-      socket.emit('join', 'test')
-    })
 });
