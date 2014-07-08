@@ -11,7 +11,8 @@ requires = [
     'pyramid',
     'pyramid_mako',
     'gevent-websocket',
-    'gevent-socketio'
+    'gevent-socketio',
+    'mako'
     ]
 
 setup(name='teamv',
