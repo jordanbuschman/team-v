@@ -8,6 +8,7 @@ with open(os.path.join(here, 'README.txt')) as f:
 
 requires = [
     'paste',
+    'PasteDeploy',
     'pyramid',
     'pyramid_mako',
     'gevent-websocket',
