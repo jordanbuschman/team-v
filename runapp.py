@@ -1,5 +1,5 @@
 from socketio.server import SocketIOServer
-from paste.deply import loadapp
+from paste.deploy import loadapp
 
 if __name__ == "__main__":
     open('transcript.log', 'w').close() # Make sure transcript is created and empty
