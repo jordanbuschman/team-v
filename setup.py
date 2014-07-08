@@ -16,7 +16,7 @@ requires = [
 
 setup(name='team-v',
       version='0.0',
-      description='team-v',
+      description='Team Valente',
       long_description=README,
       classifiers=[
         "Programming Language :: Python",
@@ -28,7 +28,7 @@ setup(name='team-v',
       author_email='',
       url='team-v.herokuapp.com',
       keywords='web pyramid pylons',
-      packages=find_packages(),
+      packages=['team-v'],'''find_packages(),'''
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,
