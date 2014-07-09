@@ -50,9 +50,9 @@ class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def recv_disconnect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_disconnect')
-        self.disconnect(silent=True)
         with open("teamv/templates/logs/log_001.mak", "a") as f:
             f.write('({0}) : User disconnected\n'.format(current_time))
+        self.disconnect(silent=True)
 
     def on_join(self, channel):
         self.join(channel)
