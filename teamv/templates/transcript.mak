@@ -1,3 +1,5 @@
 <%inherit file="wrapper.mak" />
 
-TRANSCRIPT
+<pre>
+<%include file="${transcript_name}" />
+</pre>
