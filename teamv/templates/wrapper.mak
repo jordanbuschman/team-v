@@ -13,9 +13,10 @@
 
         <script type="text/javascript" src="/static/javascript/jquery.min.js"></script>
         <script type="text/javascript" src="/static/javascript/socket.io.min.js"></script>
-        <script type="text/javascript" src="/static/javascript/index.js"></script>
 
-        <link href="/static/css/mystyles.css" rel="stylesheet" type="text/css">
+        <link href="/static/css/main_styles.css" rel="stylesheet" type="text/css">
+
+        <%block name="includes" />
 
     </head>
     <body>
