@@ -16,7 +16,7 @@ mylookup = TemplateLookup(directories=['./teamv/templates'])
 @view_config(context=HTTPNotFound, renderer='mako')
 def not_found(request):
     mytemplate = mylookup.get_template('not_found.mak')
-    result = mytemplate.render()
+    result = mytemplate.render(title = 'Team Valente - Page not found')
     return Response(result, status = '404 Not Found')
 
 @view_config(route_name='home', renderer='mako')
@@ -31,7 +31,8 @@ def transcript(request):
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting_id'))
         if os.path.isfile(file_name):
             mytemplate = mylookup.get_template('transcript.mak')
-            result = mytemplate.render(meeting_id = request.GET.get('meeting_id'))
+            this_meeting_id = request.GET.get('meeting_id')
+            result = mytemplate.render(title = 'Team Valente - Transcript #{0}'.format(this_meeting_id), meeting_id = this_meeting_id)
             return Response(result)
         else:
             return not_found(request)
