@@ -31,7 +31,7 @@ def transcript(request):
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting_id'))
         if os.path.isfile(file_name):
             mytemplate = mylookup.get_template('transcript.mak')
-            result = mytemplate.render(transcript_name = 'logs/log_{0}.mak'.format(request.GET.get('meeting_id')))
+            result = mytemplate.render(meeting_id = request.GET.get('meeting_id'))
             return Response(result)
         else:
             return not_found(request)
