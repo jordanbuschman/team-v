@@ -11,7 +11,7 @@ from os import environ, path
 
 import os
 
-mylookup = TemplateLookup(directories=['./teamv/templates'])
+mylookup = TemplateLookup(directories=['./teamv/templates'], module_directory='./teamv/temp/mako_modules', collection_size=500)
 
 def is_number(s):
     try:
