@@ -13,7 +13,7 @@
 
         <script type="text/javascript" src="/static/javascript/jquery.min.js"></script>
         <script type="text/javascript" src="/static/javascript/socket.io.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -24,7 +24,9 @@
     </head>
     <body>
         <section class="wrapper-content">
-            ${next.body()}
+            <div class="container">
+                ${next.body()}
+            </div class="container">
         </section>
     </body>
 </html>
