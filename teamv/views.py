@@ -34,7 +34,7 @@ def index(request):
 
 @view_config(route_name='transcript', renderer='mako', request_method='GET')
 def transcript(request):
-    if 'meeting_number' in request.GET:
+    if 'meeting_number' in request.GET and is_number(request.GET.get('meeting_number')):
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting_number'))
         if os.path.isfile(file_name):
             mytemplate = mylookup.get_template('transcript.mak')
