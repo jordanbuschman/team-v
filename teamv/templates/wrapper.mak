@@ -13,8 +13,11 @@
 
         <script type="text/javascript" src="/static/javascript/jquery.min.js"></script>
         <script type="text/javascript" src="/static/javascript/socket.io.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
-        <link href="/static/css/main_styles.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/static/css/main_styles.css" rel="stylesheet">
 
         <%block name="includes" />
 
