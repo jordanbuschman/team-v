@@ -13,7 +13,7 @@ TODO:
     FRONT END:
         - wrapper.mak needs to be done (header/footer)
         - main_styles.css needs to be done so that there is a consistant syle across all pages
-        - All javascript/jquery work needs to be done
+        - All javascript/jquery work needs to be done (login script, script notify others when someone is speaking, etc.)
         - Voice to text API integration
         - More beautiful/efficient way of viewing transcripts (search by name/content/time, name highlighting, etc.)
     BACK END:
@@ -22,4 +22,4 @@ TODO:
         - Meeting transcript security (possibly, so random people can't just see the transcript)
         - Meeting timestamps need to be altered
         - Meeting start/end times based on WEBEX meeting creation/finishing
-        - Meeting start/end tags
+        - Meeting start/end tags (signal when to start/end recording)
