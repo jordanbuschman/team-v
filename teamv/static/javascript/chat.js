@@ -1,12 +1,25 @@
 $(document).ready(function() {
     var socket = io.connect('/chat');
 
+    var chatlog = document.getElementById('chatlog');
+  
+// Compatibility Check
+
     if (!('webkitSpeechRecognition' in window)) {
 	  upgrade();
     } 	
-
-    var recognition = new window.webkitSpeechRecognition();
-  
+window.SpeechRecognition = window.SpeechRecognition       ||
+                                 window.webkitSpeechRecognition ||
+                                 null;
+ 
+      if (window.SpeechRecognition === null) {
+        document.getElementById('ws-unsupported').classList.remove('hidden');
+        document.getElementById('stop_listening').setAttribute('disabled', 'disabled');
+        document.getElementById('start_listening').setAttribute('disabled', 'disabled');
+      } else {
+   
+     var recognition = new window.webkitSpeechRecognition();
+   
     recognition.continuous = true;
     recognition.onresult = function(event) {
 	for(var i = event.resultIndex; i < event.results.length; i++){
@@ -16,7 +29,7 @@ $(document).ready(function() {
 	    }
 	}
     };
-
+    }
     
    $('#stop_listening').on('click', function(){
 	recognition.stop();
@@ -31,15 +44,18 @@ $(document).ready(function() {
     });
 
     socket.on("chat", function(e) {
-        $("#chatlog").append(e + "<br />");
+        $("#chatlog").append(e + "\n");
+	chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.on("user_disconnect", function() {
-        $("#chatlog").append("user disconnected" + "<br />");
+        $("#chatlog").append("> User disconnected" + "<\n>");
+    	chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.on("user_connect", function() {
-        $("#chatlog").append("user connected" + "<br />");
+        $("#chatlog").append("> User connected" + "\n");
+    	chatlog.scrollTop = chatlog.scrollHeight;
     });
 
 

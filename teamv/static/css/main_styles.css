@@ -18,3 +18,12 @@ input {
     height: 400px;
     overflow: auto;
 }
+
+#chatlog{
+    display: block;
+    width: 100%;
+    height: 30em;
+    overflow-y: scroll;
+    border: 1px solid #333333;
+    line-height: 1.3em;
+}
