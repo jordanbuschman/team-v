@@ -29,7 +29,7 @@ def not_found(request):
 @view_config(route_name='home', renderer='mako')
 def index(request):
     mytemplate = mylookup.get_template('index.mak')
-    result = mytemplate.render(title = 'Team Valente - Meeting #{0}'.format(this_meeting), meeting = this_meeting)
+    result = mytemplate.render(title = 'Team Valente - Meeting #{0}'.format(001))
     return Response(result)
 
 @view_config(route_name='transcript', renderer='mako')

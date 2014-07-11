@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var socket = io.connect('/chat', {secure: true});
+    var socket = io.connect('/chat');//, {secure: true});
 
     var chatlog = document.getElementById('chatlog');
   
