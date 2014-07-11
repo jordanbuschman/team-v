@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var socket = io.connect('/chat');
+    var socket = io.connect('/chat', {secure: true});
 
     var chatlog = document.getElementById('chatlog');
   
@@ -8,9 +8,9 @@ $(document).ready(function() {
     if (!('webkitSpeechRecognition' in window)) {
 	  upgrade();
     } 	
-window.SpeechRecognition = window.SpeechRecognition       ||
-                                 window.webkitSpeechRecognition ||
-                                 null;
+    window.SpeechRecognition = window.SpeechRecognition       ||
+                               window.webkitSpeechRecognition ||
+                               null;
  
       if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
@@ -49,7 +49,7 @@ window.SpeechRecognition = window.SpeechRecognition       ||
     });
 
     socket.on("user_disconnect", function() {
-        $("#chatlog").append("> User disconnected" + "<\n>");
+        $("#chatlog").append("> User disconnected" + "\n");
     	chatlog.scrollTop = chatlog.scrollHeight;
     });
 
