@@ -2,6 +2,9 @@ team-v README
 
 Our server: team-v.herokuapp.com
 
+Before you set up your environment, you need python-dev. To get this:
+sudo apt-get install python-dev
+
 To set up your environment:
     python setup.py develop
 To run:
