@@ -1,5 +1,7 @@
 team-v README
 
+Our server: team-v.herokuapp.com
+
 To set up your environment:
     python setup.py develop
 To run:
