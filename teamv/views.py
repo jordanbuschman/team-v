@@ -29,27 +29,27 @@ def not_found(request):
 @view_config(route_name='home', renderer='mako')
 def index(request):
     mytemplate = mylookup.get_template('index.mak')
-    result = mytemplate.render()
+    result = mytemplate.render(title = 'Team Valente - Meeting #{0}'.format(this_meeting), meeting = this_meeting)
     return Response(result)
 
-@view_config(route_name='transcript', renderer='mako', request_method='GET')
+@view_config(route_name='transcript', renderer='mako')
 def transcript(request):
-    if 'meeting_number' in request.GET and is_number(request.GET.get('meeting_number')):
-        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting_number'))
+    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
+        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
         if os.path.isfile(file_name):
             mytemplate = mylookup.get_template('transcript.mak')
-            this_meeting_number = request.GET.get('meeting_number')
-            result = mytemplate.render(title = 'Team Valente - Transcript #{0}'.format(this_meeting_number), meeting_number = this_meeting_number)
+            this_meeting = request.GET.get('meeting')
+            result = mytemplate.render(title = 'Team Valente - Transcript #{0}'.format(this_meeting), meeting = this_meeting)
             return Response(result)
         else:
             return not_found(request)
     else:
         return not_found(request)
 
-@view_config(route_name='start_meeting', request_method='GET')
+@view_config(route_name='start_meeting')
 def start_meeting(request):
-    if 'meeting_number' in request.GET and is_number(request.GET.get('meeting_number')):
-        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting_number'))
+    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
+        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
         if os.path.isfile(file_name): # If the meeting has already been created
             return Response(status = '400 Bad Request')
         else:
