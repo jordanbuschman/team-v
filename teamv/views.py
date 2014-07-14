@@ -8,8 +8,10 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 from chat import ChatNamespace
 from os import environ, path
+from deform import Form
+from deform import ValidationFailure
 
-import os
+import os, colander
 
 mylookup = TemplateLookup(directories=['./teamv/templates'], module_directory='./teamv/temp/mako_modules', collection_size=500)
 
@@ -29,7 +31,16 @@ def not_found(request):
 @view_config(route_name='home', renderer='mako')
 def index(request):
     mytemplate = mylookup.get_template('index.mak')
-    result = mytemplate.render(title = 'Team Valente - Meeting #{0}'.format(001), request = request)
+    if 'meeting' in request.POST:
+        print request.POST.get('meeting')
+    if 'meeting' in request.POST and is_number(request.POST.get('meeting')) and 'nickname' in request.POST:
+        values = {
+            'nickname': request.POST.get('nickname'),
+            'meeting': request.POST.get('nickname'), 
+        }
+        result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(001), request = request, values = values)
+    else:
+        result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(001), request = request, values = None)
     return Response(result)
 
 @view_config(route_name='transcript', renderer='mako')
@@ -39,7 +50,7 @@ def transcript(request):
         if os.path.isfile(file_name):
             mytemplate = mylookup.get_template('transcript.mak')
             this_meeting = request.GET.get('meeting')
-            result = mytemplate.render(title = 'Team Valente - Transcript #{0}'.format(this_meeting), meeting = this_meeting)
+            result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting)
             return Response(result)
         else:
             return not_found(request)

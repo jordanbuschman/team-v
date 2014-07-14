@@ -3,17 +3,15 @@
 <%block name="includes">
     %if 'meeting' in request.POST and 'nickname' in request.POST:
         <script type="text/javascript" src="/static/javascript/chat.js"></script>
-    %else:
-        <script type="text/javascript" src="/static/javascript/login.js"></script>
     %endif
 </%block>
 
 %if not 'meeting' in request.POST or not 'nickname' in request.POST:
-    <form name="enter_meeting" onsubmit="enter_meeting()">
+    <form name="enter_meeting" method="POST" action="/">
         <p>Enter your nickname and meeting number</p>
         Nickname: <input type="text" id="nickname" placeholder="&quot;Jim Smith&quot;"><br/>
         Meeting number: <input type="text" id="meeting_number" placeholder="&quot;12345678&quot;"><br/>
-        <button type="submit">Send</button>
+        <input type="submit" value="Submit">
     </form>
 %else:
     
