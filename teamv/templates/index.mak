@@ -1,13 +1,16 @@
 <%inherit file="wrapper.mak" />
 
 <%block name="includes">
-    %if 'meeting' in request.POST and 'nickname' in request.POST:
+    %if values is None:
+        <script type="text/javascript" src="/static/javascript/login.js"></script>
+    %else:
         <script type="text/javascript" src="/static/javascript/chat.js"></script>
     %endif
 </%block>
 
-%if not 'meeting' in request.POST or not 'nickname' in request.POST:
-    <form name="enter_meeting" method="POST" action="/">
+<p>${values}</p>
+%if values is None:
+    <form name="enter_meeting">
         <p>Enter your nickname and meeting number</p>
         Nickname: <input type="text" id="nickname" placeholder="&quot;Jim Smith&quot;"><br/>
         Meeting number: <input type="text" id="meeting_number" placeholder="&quot;12345678&quot;"><br/>
