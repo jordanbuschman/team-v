@@ -3,6 +3,8 @@
 <%block name="includes">
     %if 'meeting' in request.POST and 'nickname' in request.POST:
         <script type="text/javascript" src="/static/javascript/chat.js"></script>
+    %else:
+        <script type="text/javascript" src="/static/javascript/login.js"></script>
     %endif
 </%block>
 
