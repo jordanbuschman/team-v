@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var socket = io.connect('/chat');
+
     var chatlog = document.getElementById('chatlog');
   
     // Compatibility Check
@@ -27,6 +29,10 @@ $(document).ready(function() {
             }
         };
     }
+    
+    $(window).bind("beforeunload", function() {
+        socket.disconnect();
+    });
     
     $('#stop_listening').on('click', function(){
         recognition.stop();
