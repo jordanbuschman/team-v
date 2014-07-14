@@ -1,51 +1,44 @@
 $(document).ready(function() {
-    var socket = io.connect('/chat');//, {secure: true});
-
     var chatlog = document.getElementById('chatlog');
   
-// Compatibility Check
+    // Compatibility Check
 
     if (!('webkitSpeechRecognition' in window)) {
-	  upgrade();
+	    upgrade();
     } 	
     window.SpeechRecognition = window.SpeechRecognition       ||
                                window.webkitSpeechRecognition ||
                                null;
  
-      if (window.SpeechRecognition === null) {
+    if (window.SpeechRecognition === null) {
         document.getElementById('ws-unsupported').classList.remove('hidden');
         document.getElementById('stop_listening').setAttribute('disabled', 'disabled');
         document.getElementById('start_listening').setAttribute('disabled', 'disabled');
-      } else {
+    } else {
+        var recognition = new window.webkitSpeechRecognition();
    
-     var recognition = new window.webkitSpeechRecognition();
-   
-    recognition.continuous = true;
-    recognition.onresult = function(event) {
-	for(var i = event.resultIndex; i < event.results.length; i++){
-	    if(event.results.length > 0){
-	    chatbox.value = event.results[i][0].transcript;
-	    $('#chat_form').submit();
-	    }
-	}
-    };
+        recognition.continuous = true;
+        recognition.onresult = function(event) {
+            for(var i = event.resultIndex; i < event.results.length; i++){
+        	    if(event.results.length > 0){
+        	        chatbox.value = event.results[i][0].transcript;
+        	        $('#chat_form').submit();
+        	    }
+            }
+        };
     }
     
-   $('#stop_listening').on('click', function(){
-	recognition.stop();
-   });
-
-   $('#start_listening').on('click', function() {
-	recognition.start();
+    $('#stop_listening').on('click', function(){
+        recognition.stop();
     });
 
-    $(window).bind("beforeunload", function() {
-        socket.disconnect();
+    $('#start_listening').on('click', function() {
+	    recognition.start();
     });
 
     socket.on("chat", function(e) {
         $("#chatlog").append(e + "\n");
-	chatlog.scrollTop = chatlog.scrollHeight;
+	    chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.on("user_disconnect", function() {
@@ -57,7 +50,6 @@ $(document).ready(function() {
         $("#chatlog").append("> User connected" + "\n");
     	chatlog.scrollTop = chatlog.scrollHeight;
     });
-
 
     $("#chat_form").submit(function(e) {
         e.preventDefault();
