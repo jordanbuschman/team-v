@@ -9,7 +9,7 @@ from mako.lookup import TemplateLookup
 from chat import ChatNamespace
 from os import environ, path
 
-import os
+import os, time, datetime
 
 mylookup = TemplateLookup(directories=['./teamv/templates'], module_directory='./teamv/temp/mako_modules', collection_size=500)
 
@@ -35,6 +35,7 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(this_meeting)
         response = start_meeting(request)
+        print response.time_created
 
         if response.status == '201 Created' or response.status == '200 OK':
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
@@ -59,7 +60,7 @@ def transcript(request):
     else:
         return not_found(request)
 
-@view_config(route_name='start_meeting')
+@view_config(route_name='start_meeting', renderer='json')
 def start_meeting(request):
     if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
@@ -67,7 +68,8 @@ def start_meeting(request):
             return Response(status = '200 OK')
         else:
             open(file_name, 'w').close()
-            return Response(status = '201 Created')
+            current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+            return Response(status = '201 Created', time_created = current_time)
     else: # Invalid request
         return Response(status = '400 Bad Request')
             

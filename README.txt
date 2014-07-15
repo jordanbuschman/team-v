@@ -2,10 +2,13 @@ team-v README
 
 Our server: team-v.herokuapp.com
 
-Before you set up your environment, you need python-dev. To get this:
-sudo apt-get install python-dev
+To set up your environment, run the following commands (on Ubuntu):
+    sudo apt-get install python-dev
+    sudo apt-get install postgresql
+    sudo apt-get install python-psycopg2
+    sudo apt-get install libpq-dev
 
-To set up your environment:
+To install required libraries:
     python setup.py develop
 To run:
     python runapp.py
