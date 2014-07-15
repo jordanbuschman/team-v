@@ -70,7 +70,7 @@ $(document).ready(function() {
     $("#chat_form").submit(function(e) {
         e.preventDefault();
         var val = $("#chatbox").val();
-        socket.emit("chat", nickname + " : " + val);
+        socket.emit("chat", val);
         $("#chatbox").val("");
     });
 

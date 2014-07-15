@@ -33,7 +33,13 @@ def index(request):
         mytemplate = mylookup.get_template('index.mak')
         this_meeting = request.GET.get('meeting')
         this_nickname = request.GET.get('nickname')
-        result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
+        file_name = 'teamv/templates/logs/log_{0}.mak'.format(this_meeting)
+        response = start_meeting(request)
+
+        if response.status == '201 Created' or response.status == '200 OK':
+            result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
+        else: # Bad request, return not found
+            return not_found(request)
     else:
         mytemplate = mylookup.get_template('index.mak')
         result = mytemplate.render(title = 'Team Valente - Enter meeting', meeting = None, nickname = None)
@@ -58,11 +64,11 @@ def start_meeting(request):
     if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
         if os.path.isfile(file_name): # If the meeting has already been created
-            return Response(status = '400 Bad Request')
+            return Response(status = '200 OK')
         else:
             open(file_name, 'w').close()
             return Response(status = '201 Created')
-    else:
+    else: # Invalid request
         return Response(status = '400 Bad Request')
             
 @view_config(route_name='socketio')
