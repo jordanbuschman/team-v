@@ -1,7 +1,17 @@
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 $(document).ready(function() {
     var socket = io.connect('/chat');
 
     var chatlog = document.getElementById('chatlog');
+
+    var meeting = getParameterByName('meeting');
+    var nickname = getParameterByName('nickname');
   
     // Compatibility Check
 
@@ -60,7 +70,7 @@ $(document).ready(function() {
     $("#chat_form").submit(function(e) {
         e.preventDefault();
         var val = $("#chatbox").val();
-        socket.emit("chat", val);
+        socket.emit("chat", nickname + " : " + val);
         $("#chatbox").val("");
     });
 

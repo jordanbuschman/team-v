@@ -37,9 +37,9 @@ class NamedUsersRoomsMixin(BroadcastMixin):
 class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def on_chat(self, msg):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
-        self.broadcast_event('chat', '({0}) : {1}'.format(current_time, msg))
+        self.broadcast_event('chat', '({0}) {1}'.format(current_time, msg))
         with open("teamv/templates/logs/log_001.mak", "a") as f:
-            f.write('({0}) : {1}\n'.format(current_time, msg))
+            f.write('({0}) {1}\n'.format(current_time, msg))
 
     def recv_connect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
