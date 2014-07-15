@@ -1,23 +1,19 @@
 <%inherit file="wrapper.mak" />
 
 <%block name="includes">
-    %if values is None:
-        <script type="text/javascript" src="/static/javascript/login.js"></script>
-    %else:
+    % if meeting is not None and nickname is not None:
         <script type="text/javascript" src="/static/javascript/chat.js"></script>
-    %endif
+    % endif
 </%block>
 
-<p>${values}</p>
-%if values is None:
-    <form name="enter_meeting">
+% if meeting is None or nickname is None:
+    <form name="enter_meeting" method="GET" action="/">
         <p>Enter your nickname and meeting number</p>
-        Nickname: <input type="text" id="nickname" placeholder="&quot;Jim Smith&quot;"><br/>
-        Meeting number: <input type="text" id="meeting_number" placeholder="&quot;12345678&quot;"><br/>
+        Nickname: <input type="text" name="nickname" placeholder="&quot;Jim Smith&quot;"><br/>
+        Meeting number: <input type="text" name="meeting" placeholder="&quot;12345678&quot;"><br/>
         <input type="submit" value="Submit">
     </form>
-%else:
-    
+% else:
     <h1>Chat Log</h1>
     <textarea id="chatlog" readonly="readonly"></textarea>
     <br />
@@ -29,4 +25,4 @@
     </form>
     
     <span id="ws-unsupported" class="hidden">API not supported</span>
-%endif
+% endif

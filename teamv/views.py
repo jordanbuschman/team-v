@@ -28,20 +28,17 @@ def not_found(request):
 
 @view_config(route_name='home', renderer='mako')
 def index(request):
-    print request.body
     # TODO: Redirect if nickname is not specified
-    if 'meeting' in request.POST:
-        values = {
-            'meeting': request.POST.get('meeting'), 
-            'nickname': request.POST.get('nickname'),
-        }
+    if 'meeting' in request.GET and 'nickname' in request.GET:
         mytemplate = mylookup.get_template('index.mak')
-        result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(request.POST.get('meeting')), values = values)
+        this_meeting = request.GET.get('meeting')
+        this_nickname = request.GET.get('nickname')
+        result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
     else:
         mytemplate = mylookup.get_template('index.mak')
-        result = mytemplate.render(title = 'Team Valente - Join a meeting', values = None)
+        result = mytemplate.render(title = 'Team Valente - Enter meeting', meeting = None, nickname = None)
     return Response(result)
-
+    
 @view_config(route_name='transcript', renderer='mako')
 def transcript(request):
     if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
