@@ -30,10 +30,10 @@ def not_found(request):
 @view_config(route_name='home', renderer='mako')
 def index(request):
     # TODO: Redirect if nickname is not specified
-    if 'meeting' in request.GET and 'nickname' in request.GET:
+    if 'meeting' in request.POST and 'nickname' in request.POST:
         mytemplate = mylookup.get_template('index.mak')
-        this_meeting = request.GET.get('meeting')
-        this_nickname = request.GET.get('nickname')
+        this_meeting = request.POST.get('meeting')
+        this_nickname = request.POST.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(this_meeting)
         response = start_meeting(request)
 
@@ -62,13 +62,13 @@ def transcript(request):
 
 @view_config(route_name='start_meeting')
 def start_meeting(request):
-    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
-        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
+    if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
+        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.POST.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
         if os.path.isfile(file_name): # If the meeting has already been created, check if the meeting has ended
-            cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
+            cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.POST.get('meeting'), ))
 
             result = cur.fetchone()
             cur.close()
@@ -82,7 +82,7 @@ def start_meeting(request):
                 return Response(status = '200 OK') # Meeting is still going, it is OK to join
         else:
             open(file_name, 'w').close()
-            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.GET.get('meeting'), ))
+            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.POST.get('meeting'), ))
 
             cur.close()
             conn.close()

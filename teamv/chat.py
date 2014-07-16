@@ -44,7 +44,7 @@ class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def recv_connect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_connect')
-        with open("teamv/templates/logs/log_001.mak", "a") as f:
+        with open("teamv/templates/logs/log_{0}.mak".format().format(, "a") as f:
             f.write('({0}) : User connected\n'.format(current_time))
 
     def recv_disconnect(self):
