@@ -1,4 +1,4 @@
-import os, psycopg2, urlparse
+import os, psycopg2, urlparse, logging
 
 def connect_to_db():
     urlparse.uses_netloc.append("postgres")
@@ -12,8 +12,8 @@ def connect_to_db():
             host=url.hostname,
             port=url.port
         )
+        conn.autocommit = True
     except:
-        print "ERROR: Cannot connect to database"
+        logging.error("Cannot connect to database")
 
-    conn.autocommit = True
     return conn
