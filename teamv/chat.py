@@ -38,19 +38,19 @@ class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def on_chat(self, msg):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('chat', '({0}) {1}'.format(current_time, msg))
-        with open("teamv/templates/logs/log_001.mak", "a") as f:
+        with open("teamv/temp/logs/log_{0}.log".format(001), "a") as f:
             f.write('({0}) {1}\n'.format(current_time, msg))
 
     def recv_connect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_connect')
-        with open("teamv/templates/logs/log_{0}.mak".format().format(, "a") as f:
+        with open("teamv/temp/logs/log_{0}.log".format(001), "a") as f:
             f.write('({0}) : User connected\n'.format(current_time))
 
     def recv_disconnect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_disconnect')
-        with open("teamv/templates/logs/log_001.mak", "a") as f:
+        with open("teamv/logs/log_{0}.log".format(001), "a") as f:
             f.write('({0}) : User disconnected\n'.format(current_time))
         self.disconnect(silent=True)
 

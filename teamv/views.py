@@ -34,7 +34,7 @@ def index(request):
         mytemplate = mylookup.get_template('index.mak')
         this_meeting = request.POST.get('meeting')
         this_nickname = request.POST.get('nickname')
-        file_name = 'teamv/templates/logs/log_{0}.mak'.format(this_meeting)
+        file_name = 'teamv/temp/logs/log_{0}.log'.format(this_meeting)
         response = start_meeting(request)
 
         if response.status == '201 Created' or response.status == '200 OK':
@@ -48,8 +48,9 @@ def index(request):
     
 @view_config(route_name='transcript', renderer='mako')
 def transcript(request):
+    # TODO: Link to CDN instead of local logs
     if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
-        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
+        file_name = 'teamv/temp/logs/log_{0}.log'.format(request.GET.get('meeting'))
         if os.path.isfile(file_name):
             mytemplate = mylookup.get_template('transcript.mak')
             this_meeting = request.GET.get('meeting')
@@ -63,7 +64,8 @@ def transcript(request):
 @view_config(route_name='start_meeting')
 def start_meeting(request):
     if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.POST.get('meeting'))
+        # TODO: Check if file in CDN instead of local
+        file_name = 'teamv/temp/logs/log_{0}.log'.format(request.POST.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
