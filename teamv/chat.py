@@ -50,7 +50,7 @@ class ChatNamespace(BaseNamespace, NamedUsersRoomsMixin):
     def recv_disconnect(self):
         current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         self.broadcast_event('user_disconnect')
-        with open("teamv/logs/log_{0}.log".format(001), "a") as f:
+        with open("teamv/temp/logs/log_{0}.log".format(001), "a") as f:
             f.write('({0}) : User disconnected\n'.format(current_time))
         self.disconnect(silent=True)
 

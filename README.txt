@@ -28,14 +28,16 @@ TODO:
         - main_styles.css needs to be done so that there is a consistant syle across all pages
         - All javascript/jquery work needs to be done (login script, script notify others when someone is speaking, etc.)
         - Voice to text API integration
-        - More beautiful/efficient way of viewing transcripts (search by name/content/time, name
           highlighting, etc.)
+        - Templates need to connect to CDN and pull files from them (or from local location if the meeting is not done)
     BACK END:
         - User nicknames
         - Different meetings based on meeting_number
-        - Meeting transcript security (possibly, so random people can't just see the transcript)
         - Meeting timestamps need to be altered
         - Meeting start/end times based on WEBEX meeting creation/finishing
         - Meeting start/end tags (signal when to start/end recording)
+        - When a meeting ends, find send the temp log to CDN and mark it in the database as meeting ended
     DATABASE:
-        - Find a way to locally develop (write a script, make local db)
+        - Possibly: Find a way to locally develop (write a script, make local db)
+    CDN:
+        - Find a CDN for Heroku (permanent location of logs when they are done recording)
