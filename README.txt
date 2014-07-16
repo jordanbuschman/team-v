@@ -17,20 +17,16 @@ To run:
 You can also do ./run to run the bash script and combine these actions into one.
 ---------------------------------------------------------------------------------------------------
 SQL DATABASE:
-    For now, this project uses a heroku PostgreSQL server. Currently, there is no local development
-(working on it, lol). If you have the heroku toolbelt installed and setup, you can use the
-following command to initialize the database (DO NOT RUN UNLESS YOU WANT TO DELETE EVERYTHING):
+    For now, this project uses a heroku PostgreSQL server. Currently, there is no local development (working on it, lol). If you have the heroku toolbelt installed and setup, you can use the following command to initialize the database (DO NOT RUN UNLESS YOU WANT TO DELETE EVERYTHING):
     cat init.sql | heroku pg:psql 
 ---------------------------------------------------------------------------------------------------
 TODO:
     WEBEX:
-        - See if there is a way to change the webex plugin to call our server when the meeting is
-          formed
+        - See if there is a way to change the webex plugin to call our server when the meeting is formed
     FRONT END:
         - wrapper.mak needs to be done (header/footer)
         - main_styles.css needs to be done so that there is a consistant syle across all pages
-        - All javascript/jquery work needs to be done (login script, script notify others when
-          someone is speaking, etc.)
+        - All javascript/jquery work needs to be done (login script, script notify others when someone is speaking, etc.)
         - Voice to text API integration
         - More beautiful/efficient way of viewing transcripts (search by name/content/time, name
           highlighting, etc.)
