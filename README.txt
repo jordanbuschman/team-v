@@ -31,3 +31,5 @@ TODO:
         - Meeting timestamps need to be altered
         - Meeting start/end times based on WEBEX meeting creation/finishing
         - Meeting start/end tags (signal when to start/end recording)
+    DATABASE:
+        - Find a way to locally develop (write a script, make local db)

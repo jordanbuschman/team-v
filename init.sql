@@ -1,6 +1,9 @@
-/*CREATE DATABASE IF NOT EXISTS team-v;
-USE team-v;
-*/
+/******************************************/
+/*   init.sql - Initialize the database   */
+/* DO NOT RUN ON PRODUCTION SERVER UNLESS */
+/*     YOU KNOW WHAT YOU ARE DOING!!!     */
+/******************************************/
+
 DROP TABLE IF EXISTS meetings;
 
 CREATE TABLE meetings (
