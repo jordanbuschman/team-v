@@ -69,6 +69,7 @@ def start_meeting(request):
 
         if os.path.isfile(file_name): # If the meeting has already been created, check if the meeting has ended
             cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
+
             result = cur.fetchone()
             cur.close()
             conn.close()
@@ -82,6 +83,7 @@ def start_meeting(request):
         else:
             open(file_name, 'w').close()
             cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.GET.get('meeting'), ))
+
             cur.close()
             conn.close()
             return Response(status = '201 Created') # Meeting has not been started yet, so it is created
