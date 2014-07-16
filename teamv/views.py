@@ -69,7 +69,7 @@ def start_meeting(request):
         cur = conn.cursor()
 
         if os.path.isfile(file_name): # If the meeting has already been created, check if the meeting has ended
-            cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%d', (request.GET.get('meeting'), ))
+            cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
             result = cur.fetchone()
             cur.close()
             conn.close()
