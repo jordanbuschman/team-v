@@ -1,6 +1,6 @@
 import os, psycopg2, urlparse
 
-def connect():
+def connect_to_db():
     urlparse.uses_netloc.append("postgres")
     url = urlparse.urlparse(os.environ["DATABASE_URL"])
     
