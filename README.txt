@@ -1,7 +1,7 @@
 team-v README
----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 Our server: team-v.herokuapp.com
----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 SETUP AND RUNNING THE APP:
 To set up your environment, run the following commands (on Ubuntu):
     sudo apt-get install python-dev
@@ -15,11 +15,11 @@ To run:
     python runapp.py
 
 You can also do ./run to run the bash script and combine these actions into one.
----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 SQL DATABASE:
     For now, this project uses a heroku PostgreSQL server. Currently, there is no local development (working on it, lol). If you have the heroku toolbelt installed and setup, you can use the following command to initialize the database (DO NOT RUN UNLESS YOU WANT TO DELETE EVERYTHING):
     cat init.sql | heroku pg:psql 
----------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 TODO:
     WEBEX:
         - See if there is a way to change the webex plugin to call our server when the meeting is formed
