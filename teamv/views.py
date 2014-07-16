@@ -61,19 +61,33 @@ def transcript(request):
     else:
         return not_found(request)
 
-@view_config(route_name='start_meeting', renderer='json')
+@view_config(route_name='start_meeting')
 def start_meeting(request):
     if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
-        conn = connect_to_db()
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(request.GET.get('meeting'))
-        if os.path.isfile(file_name): # If the meeting has already been created
-            return Response(status = '200 OK')
+        conn = connect_to_db()
+        cur = conn.cursor()
+
+        if os.path.isfile(file_name): # If the meeting has already been created, check if the meeting has ended
+            cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%d', (request.GET.get('meeting'), ))
+            result = cur.fetchone()
+            cur.close()
+            conn.close()
+        
+            if result is None:
+                return Response(status = '404 Not Found') # Something has gone wrong, meeting not found
+            elif result[1] is not None:
+                return Response(status = '403 Forbidden') # Meeting has ended, forbidden
+            else:
+                return Response(status = '200 OK') # Meeting is still going, it is OK to join
         else:
             open(file_name, 'w').close()
-            current_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-            return Response(status = '201 Created', time_created = current_time)
+            cur.execute('INSERT INTO meetings (meeting) VALUES (%d)', (request.GET.get('meeting'), ))
+            cur.close()
+            conn.close()
+            return Response(status = '201 Created') # Meeting has not been started yet, so it is created
     else: # Invalid request
-        return Response(status = '400 Bad Request')
+        return Response(status = '400 Bad Request') # No meeting number specified, bad request
             
 @view_config(route_name='socketio')
 def socketio(request):

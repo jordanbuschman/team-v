@@ -10,5 +10,5 @@ CREATE TABLE meetings (
 	id SERIAL,
 	meeting INT NOT NULL,
 	time_started TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	time_finished TIMESTAMP,
+	time_finished TIMESTAMP DEFAULT NULL,
 	PRIMARY KEY (id));
