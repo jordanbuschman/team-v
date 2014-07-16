@@ -12,7 +12,7 @@ from dbconnect import connect_to_db
 
 import os, time, datetime, logging
 
-mylookup = TemplateLookup(directories=['./teamv/templates'], module_directory='./teamv/temp/mako_modules', collection_size=500)
+mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
 def is_number(s):
     try:
@@ -34,7 +34,7 @@ def index(request):
         mytemplate = mylookup.get_template('index.mak')
         this_meeting = request.POST.get('meeting')
         this_nickname = request.POST.get('nickname')
-        file_name = 'teamv/temp/logs/log_{0}.log'.format(this_meeting)
+        file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
         response = start_meeting(request)
 
         if response.status == '201 Created' or response.status == '200 OK':
@@ -60,7 +60,7 @@ def transcript(request):
         cur.close()
         conn.close()
 
-        file_name = 'teamv/temp/logs/log_{0}.log'.format(this_meeting)
+        file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
         if result is None:
             return not_found(request)
         elif result[0] is not None and result[1] is None and os.path.isfile(file_name): # Meeting is in process and still in local memory
@@ -79,7 +79,7 @@ def transcript(request):
 @view_config(route_name='start_meeting')
 def start_meeting(request):
     if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        file_name = 'teamv/temp/logs/log_{0}.log'.format(request.POST.get('meeting'))
+        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.POST.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
