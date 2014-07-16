@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS team-v;
+USE team-v;
+
+DROP TABLE IF EXISTS transcripts;
+
+CREATE TABLE meeting (
+	id INT NOT NULL AUTO_INCREMENT,
+	meeting INT NOT NULL,
+	time_started TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	time_finished TIMESTAMP,
+	PRIMARY KEY (id));

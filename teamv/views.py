@@ -8,6 +8,7 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 from chat import ChatNamespace
 from os import environ, path
+from dbconnect import connect
 
 import os, time, datetime
 
