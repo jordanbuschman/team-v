@@ -36,7 +36,6 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.mak'.format(this_meeting)
         response = start_meeting(request)
-        print response.time_created
 
         if response.status == '201 Created' or response.status == '200 OK':
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
