@@ -30,15 +30,19 @@ def not_found(request):
 @view_config(route_name='home', renderer='mako')
 def index(request):
     # TODO: Redirect if nickname is not specified
-    if 'meeting' in request.POST and 'nickname' in request.POST:
+    if 'meeting' in request.GET and 'nickname' in request.GET:
         mytemplate = mylookup.get_template('index.mak')
-        this_meeting = request.POST.get('meeting')
-        this_nickname = request.POST.get('nickname')
+        this_meeting = request.GET.get('meeting')
+        this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
         response = start_meeting(request)
 
         if response.status == '201 Created' or response.status == '200 OK':
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
+        elif response.status == '403 Forbidden':
+            # TODO: Redirect to a page telling you that the meeting is over, but you can see the transcript on the CDN
+            print 'This is SUPPOSED to redirect to a page telling you that you can view the now-over meeting\'s transcript, but for now, not found.'
+            return not_found(request)
         else: # Bad request, return not found
             return not_found(request)
     else:
@@ -78,18 +82,18 @@ def transcript(request):
 
 @view_config(route_name='start_meeting')
 def start_meeting(request):
-    if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.POST.get('meeting'))
+    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
+        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.GET.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.POST.get('meeting'), ))
+        cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
         result = cur.fetchone()
 
         if result is None and not os.path.isfile(file_name): # Meeting is open but not created, so create it
             open(file_name, 'w').close()
-            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.POST.get('meeting'), ))
-            print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.POST.get('meeting'))
+            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.GET.get('meeting'), ))
+            print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.GET.get('meeting'))
             cur.close()
             conn.close()
             return Response(status = '201 Created')

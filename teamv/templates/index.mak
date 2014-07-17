@@ -7,7 +7,7 @@
 </%block>
 
 % if meeting is None or nickname is None:
-    <form name="enter_meeting" method="POST" action="/">
+    <form name="enter_meeting" method="GET" action="/">
         <p>Enter your nickname and meeting number</p>
         Nickname: <input type="text" name="nickname" placeholder="&quot;Jim Smith&quot;"><br/>
         Meeting number: <input type="text" name="meeting" placeholder="&quot;12345678&quot;"><br/>
