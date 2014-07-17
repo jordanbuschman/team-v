@@ -108,10 +108,36 @@ def start_meeting(request):
         else: # Something has gone wrong, meeting not found
             cur.close()
             conn.close()
-            logging.error('Error creating meeting')
+            logging.error('Meeting could not be created or joined')
             return Response(status = '404 Not Found')
     else: # Invalid request
         return Response(status = '400 Bad Request') # No meeting number specified, bad request
+
+@view_config(route_name='end_meeting')
+def end_meeting(request):
+    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
+        conn = connect_to_db()
+        cur = conn.cursor()
+
+        cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
+        result = cur.fetchone()
+
+        if result is None or result[1] is not None: # Meeting you want to end does not exist
+            cur.close()
+            conn.close()
+            return Response(status = '400 Bad Request')
+        else: # Meeting is found, end meeting and move transcript to CDN
+            # TODO: Require password to delete meeting
+            cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
+            print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
+            # TODO: Move transcript to cloud and delete locally
+            cur.close()
+            conn.close()
+            return Response(status = '200 OK')
+    else:
+        return Response(status = '400 Bad Request')
+        
+
             
 @view_config(route_name='socketio')
 def socketio(request):
