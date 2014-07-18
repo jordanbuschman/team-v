@@ -10,7 +10,7 @@ from chat import ChatNamespace
 from os import environ, path
 from dbconnect import connect_to_db
 
-import os, time, datetime, logging, requests, json
+import os, time, datetime, logging, requests, urllib, json
 
 mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
@@ -36,8 +36,8 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        params = {'meeting': this_meeting}
-        response = requests.post('http://team-v.herokuapp.com/start', params=json.dumps(params))
+        params = urllib.urlencode({'meeting': this_meeting})
+        response = requests.post('http://team-v.herokuapp.com/start', params=params)
 
         if response.status_code == 200 or response.status_code == 201:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
