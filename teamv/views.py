@@ -10,7 +10,9 @@ from chat import ChatNamespace
 from os import environ, path
 from dbconnect import connect_to_db
 
-import os, time, datetime, logging, requests, urllib, httplib2
+import os, time, datetime, logging, requests
+import boto
+import boto.s3.connection
 
 mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
@@ -36,11 +38,12 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        response = start_meeting(request)
+        response = requests.get('http://team-v.herokuapp.com/start/{0}'.format(this_meeting))
+        print response
 
-        if response.status == '200 OK'  or response.status == '201 Created':
+        if response.status_code == 200 or response.status_code == 201:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
-        elif response.status == '403 Forbidden':
+        elif response.status_code == 403:
             # TODO: Redirect to a page telling you that the meeting is over, but you can see the transcript on the CDN
             print 'This is SUPPOSED to redirect to a page telling you that you can view the now-over meeting\'s transcript, but for now, not found.'
             return not_found(request)
@@ -83,19 +86,18 @@ def transcript(request):
 
 @view_config(route_name='start_meeting', request_method='GET')
 def start_meeting(request):
-    print request.GET.items()
-    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
-        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.GET.get('meeting'))
+    if is_number(request.matchdict['meeting']):
+        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.matchdict['meeting'])
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
+        cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.matchdict['meeting'], ))
         result = cur.fetchone()
 
         if result is None and not os.path.isfile(file_name): # Meeting is open but not created, so create it
             open(file_name, 'w').close()
-            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.GET.get('meeting'), ))
-            print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.GET.get('meeting'))
+            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.matchdict['meeting'], ))
+            print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.matchdict['meeting'])
             cur.close()
             conn.close()
             return Response(status = '201 Created')
@@ -117,11 +119,11 @@ def start_meeting(request):
 
 @view_config(route_name='end_meeting', request_method='GET')
 def end_meeting(request):
-    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
+    if is_number(request.matchdict['meeting']):
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
+        cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.matchdict['meeting'], ))
         result = cur.fetchone()
 
         if result is None or result[1] is not None: # Meeting you want to end does not exist
@@ -132,7 +134,31 @@ def end_meeting(request):
             # TODO: Require password to delete meeting
             cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
             print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
-            # TODO: Move transcript to cloud and delete locally
+
+            file_name = 'log_{0}.log'.format(request.GET.get('meeting'))
+            file_path = 'teamv/templates/logs/{0}'.format(file_name)
+            _file = open(file_path, 'r')
+            file_data = _file.read()
+            _file.close()
+
+            # Upload the completed file to Amazon S3
+            access_key = 'AKIAJIEME3E6SZRJOCNA'
+            secret_key = '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'
+
+            connection = boto.s3.connect_to_region('us-west-1',
+                aws_access_key_id = access_key,
+                aws_secret_access_key = secret_key,
+                is_secure=False,
+                calling_format = boto.s3.connection.OrdinaryCallingFormat(),
+                )
+
+            bucket = connection.get_bucket('teamvlogfiles', validate=False)
+
+            key = bucket.new_key(file_name)
+            key.set_contents_from_string(file_data)
+
+            os.remove(file_path) # Delete old file
+
             cur.close()
             conn.close()
             return Response(status = '200 OK')

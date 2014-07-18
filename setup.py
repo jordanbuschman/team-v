@@ -14,6 +14,7 @@ requires = [
     'gevent-socketio',
     'mako',
     'psycopg2',
+    'boto',
     'requests'
     ]
 
