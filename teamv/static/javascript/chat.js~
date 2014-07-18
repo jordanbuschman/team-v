@@ -85,8 +85,8 @@ $(document).ready(function() {
 	
     }
     else if(el.className=="recording_on")
-    {      
-	el.setAttribute("id", "start_listening");
+    {
+	el.id = "start_listening";        
 	el.src='/static/images/recording_off.png';
         el.className="recording_off";
 		el.title='Idle';
