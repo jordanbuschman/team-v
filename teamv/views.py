@@ -10,7 +10,7 @@ from chat import ChatNamespace
 from os import environ, path
 from dbconnect import connect_to_db
 
-import os, time, datetime, logging, requests, urllib, httplib
+import os, time, datetime, logging, requests, urllib, httplib2
 
 mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
@@ -36,15 +36,11 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        connection = httplib.HTTPConnection('team-v.herokuapp.com')
-        params = urllib.urlencode({'meeting': this_meeting})
-        connection.request('POST', '/start', params)
+        response = start_meeting(request)
 
-        response = connection.getresponse()
-
-        if response.status == 200 or response.status == 201:
+        if response.status == '200 OK'  or response.status == '201 Created':
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
-        elif response.status == 403:
+        elif response.status == '403 Forbidden':
             # TODO: Redirect to a page telling you that the meeting is over, but you can see the transcript on the CDN
             print 'This is SUPPOSED to redirect to a page telling you that you can view the now-over meeting\'s transcript, but for now, not found.'
             return not_found(request)
@@ -85,21 +81,21 @@ def transcript(request):
     else:
         return not_found(request)
 
-@view_config(route_name='start_meeting', request_method='POST')
+@view_config(route_name='start_meeting', request_method='GET')
 def start_meeting(request):
-    print request.POST.items()
-    if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.POST.get('meeting'))
+    print request.GET.items()
+    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
+        file_name = 'teamv/templates/logs/log_{0}.log'.format(request.GET.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.POST.get('meeting'), ))
+        cur.execute('SELECT time_started, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
         result = cur.fetchone()
 
         if result is None and not os.path.isfile(file_name): # Meeting is open but not created, so create it
             open(file_name, 'w').close()
-            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.POST.get('meeting'), ))
-            print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.POST.get('meeting'))
+            cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.GET.get('meeting'), ))
+            print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.GET.get('meeting'))
             cur.close()
             conn.close()
             return Response(status = '201 Created')
@@ -119,13 +115,13 @@ def start_meeting(request):
     else: # Invalid request
         return Response(status = '400 Bad Request') # No meeting number specified, bad request
 
-@view_config(route_name='end_meeting', request_method='POST')
+@view_config(route_name='end_meeting', request_method='GET')
 def end_meeting(request):
-    if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
+    if 'meeting' in request.GET and is_number(request.GET.get('meeting')):
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.POST.get('meeting'), ))
+        cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.GET.get('meeting'), ))
         result = cur.fetchone()
 
         if result is None or result[1] is not None: # Meeting you want to end does not exist
