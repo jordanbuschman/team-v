@@ -10,7 +10,9 @@ from chat import ChatNamespace
 from os import environ, path
 from dbconnect import connect_to_db
 
-import os, time, datetime, logging, requests, urllib, httplib2
+import os, time, datetime, logging, urllib
+import boto
+import boto.s3.connection
 
 mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
@@ -132,7 +134,28 @@ def end_meeting(request):
             # TODO: Require password to delete meeting
             cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
             print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
-            # TODO: Move transcript to cloud and delete locally
+
+            file_name = 'log_{0}.log'.format(request.GET.get('meeting'))
+            file_path = 'teamv/templates/logs/{0}'.format(file_name)
+            _file = open(file_path, 'r')
+            file_data = _file.read()
+            _file.close()
+
+            access_key = 'AKIAJIEME3E6SZRJOCNA'
+            secret_key = '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'
+
+            connection = boto.s3.connect_to_region('us-west-1',
+                aws_access_key_id = access_key,
+                aws_secret_access_key = secret_key,
+                is_secure=False,
+                calling_format = boto.s3.connection.OrdinaryCallingFormat(),
+                )
+
+            bucket = connection.get_bucket('teamvlogfiles', validate=False)
+
+            key = bucket.new_key(file_name)
+            key.set_contents_from_string(file_data)
+
             cur.close()
             conn.close()
             return Response(status = '200 OK')
