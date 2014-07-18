@@ -14,7 +14,8 @@ requires = [
     'gevent-socketio',
     'mako',
     'psycopg2',
-    'boto'
+    'boto',
+    'requests'
     ]
 
 setup(name='teamv',

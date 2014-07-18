@@ -6,3 +6,4 @@ pyramid-mako==1.0.2
 Mako==1.0.0
 psycopg2==2.4.5
 boto==2.31.1
+requests==2.3.0
