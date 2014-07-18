@@ -14,7 +14,70 @@
         <input type="submit" value="Submit">
     </form>
 % else:
-    <h1>Chat Log</h1>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Team Valente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<link rel="icon" href="/static/images/favicon.ico">
+
+    <!-- Le styles -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/css/dashboard.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div id="wrap"><div id="main_global">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><img src="/static/images/Team_Valente_Webex_2.png" alt="Team Valente"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li id="link_home" class="active"><a href="#">Home</a></li>
+            <li id="link_transcript"><a href="#">Transcript</a></li>
+          </ul>
+        </div>
+        <div id="div_home" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
+          <h3 class="page-header">Cisco WebEx Meeting Center</h3>
+          <div class="row">
+		     <img src="/static/images/Video.png" alt="Video">
+          </div>
+          <h3 class="sub-header">Live Subtitles</h3>
+		  <dl class="dl-horizontal">
+		     <dt>JL Valente</dt>
+             <dd>This is what I'm saying</dd>
+          </dl>
+        </div>
+		<div id="div_transcript" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
+          <h3 class="page-header">Transcript</h3>
+		  <dl class="dl-horizontal">
+
+
+		     <h1>Chat Log</h1>
     <textarea id="chatlog" readonly="readonly"></textarea>
     <br />
     <form name = "chat_form"  id="chat_form">
@@ -23,6 +86,94 @@
         <input type="button" id="start_listening" value="Start Listening" onclick="recognition.start()">
         <input type="button" id="stop_listening" value="Stop Listening" onclick="recognition.stop()"> 
     </form>
+
+
+             <dd>Lunch will be here soon. Not to worry.</dd>
+		     <dt>JL Valente</dt>
+             <dd>Nice work team!</dd>
+          </dl>
+        </div>
+        <div class="col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9 sidebar">
+           <h3>Participants</h3><br height: .5em;>
+		   <table class="table table-striped">
+		      <thead></thead>
+			  <tbody>
+                 <tr>
+                    <td>Shlomi Barsheshet</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Michael Brunger</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Jordan Buschman</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Teddy Chivetta</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Rahul Daware</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+                 <tr>
+                    <td>Andrew Green</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Pratik Pankaj</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Harika Sabella</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>JL Valente</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+				 <tr>
+                    <td>Jose Vega</td>
+                    <td><input type="image" src="/static/images/unmute.png" class="unmute" onclick="toggle(this);"/></td>
+                 </tr>
+			  </tbody>
+           </table>
+        </div>
+      </div>
+	</div></div>
+    </div>
+	<!--
+	<div class="navbar navbar-fixed-bottom">
+	<div class="navbar-inner">
+	  <div class="container">
+        <p class="muted credit"><center>&copy; 2014 Cisco and/or its affiliates. All rights reserved.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.webex.com"><img src="cisco_logo.png" width="70" height="35" alt="Cisco Logo"></a></center></p>
+      </div>
+	</div>
+	</div>
+	-->
+	
+	<div class="footer">
+	  <div class="container">
+        <p class="muted credit"><center>&copy; 2014 Cisco and/or its affiliates. All rights reserved.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.webex.com"><img src="/static/images/cisco_logo.png" width="70" height="35" alt="Cisco Logo"></a></center></p>
+      </div>
+	</div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/static/javascript/bootstrap.min.js"></script>
+	<script src="/static/javascript/myjs.js"></script>
+	<script>$(document).ready(function(){$('#div_transcript').hide();$('#link_transcript').click(function(){$('#div_home').hide();$('#div_transcript').show();});$('#link_home').click(function(){$('#div_transcript').hide();$('#div_home').show();});});</script>
+	<script>$(document).ready(function(){$('ul.nav > li').click(function(e){e.preventDefault();$('ul.nav > li').removeClass('active');$(this).addClass('active');});});</script>
+  </body>
+</html>
+
+
+
+    
     
     <span id="ws-unsupported" class="hidden">API not supported</span>
 % endif
