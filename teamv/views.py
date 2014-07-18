@@ -10,7 +10,7 @@ from chat import ChatNamespace
 from os import environ, path
 from dbconnect import connect_to_db
 
-import os, time, datetime, logging, httplib, urllib
+import os, time, datetime, logging, requests, json
 
 mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
@@ -36,15 +36,12 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        params = urllib.urlencode({'meeting': this_meeting})
-        headers = {'Content-type': 'application/x-www-form-urlencoded', 'Accept': 'text/plain'}
-        connection = httplib.HTTPConnection('http://localhost:5000')
-        connection.request('POST', '/start', params, headers)
-        response = connection.getresponse()
+        params = {'meeting': this_meeting}
+        response = requests.post('http://127.0.0.1:5000/start', params=json.dumps(params))
 
-        if response.status == '201 Created' or response.status == '200 OK':
+        if response.status_code == 200 or response.status_code == 201:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
-        elif response.status == '403 Forbidden':
+        elif response.status_code == 403:
             # TODO: Redirect to a page telling you that the meeting is over, but you can see the transcript on the CDN
             print 'This is SUPPOSED to redirect to a page telling you that you can view the now-over meeting\'s transcript, but for now, not found.'
             return not_found(request)
