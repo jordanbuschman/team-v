@@ -13,7 +13,8 @@ requires = [
     'gevent-websocket',
     'gevent-socketio',
     'mako',
-    'psycopg2'
+    'psycopg2',
+    'requests'
     ]
 
 setup(name='teamv',
