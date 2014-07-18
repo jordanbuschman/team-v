@@ -36,7 +36,7 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        connection = httplib.HTTPConnection('127.0.0.1', 5000)
+        connection = httplib.HTTPConnection('team-v.herokuapp.com')
         params = urllib.urlencode({'meeting': this_meeting})
         connection.request('POST', '/start', params)
 
