@@ -38,7 +38,7 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        response = requests.get('http://localhost:5000/start/{0}/'.format(this_meeting))
+        response = requests.get('http://team-v.herokuapp.com/start/{0}/'.format(this_meeting))
         print response
 
         if response.status_code == 200 or response.status_code == 201:
