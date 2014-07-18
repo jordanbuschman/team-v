@@ -30,15 +30,12 @@ TODO:
         - Voice to text API integration
           highlighting, etc.)
         - Templates need to connect to CDN and pull files from them (or from local location if the meeting is not done)
-        - Change username to cookie/POST data
     BACK END:
         - User nicknames
         - Different meetings based on meeting_number
         - Meeting timestamps need to be altered
         - Meeting start/end times based on WEBEX meeting creation/finishing
-        - Meeting start/end tags (signal when to start/end recording)
         - When a meeting ends, find send the temp log to CDN and mark it in the database as meeting ended
-        - Handle username as cookie/POST data
     DATABASE:
         - Possibly: Find a way to locally develop (write a script, make local db)
     CDN:
