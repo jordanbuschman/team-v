@@ -69,7 +69,7 @@
           <h3 class="sub-header">Live Subtitles</h3>
 		  <dl class="dl-horizontal">
 		     <dt>JL Valente</dt>
-             <dd>This is what I'm saying</dd>
+             <dd>This is what Im saying</dd>
           </dl>
         </div>
 		<div id="div_transcript" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
