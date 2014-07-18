@@ -37,7 +37,7 @@ def index(request):
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
         params = {'meeting': this_meeting}
-        response = requests.post('http://127.0.0.1:5000/start', params=json.dumps(params))
+        response = requests.post('http://team-v.herokuapp.com/start', params=json.dumps(params))
 
         if response.status_code == 200 or response.status_code == 201:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
