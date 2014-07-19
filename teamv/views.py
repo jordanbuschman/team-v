@@ -1,6 +1,7 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import Response
 from pyramid.response import FileResponse
+from pyramid.request import Request
 from pyramid.view import view_config
 from socketio.namespace import BaseNamespace
 from socketio import socketio_manage
@@ -38,7 +39,8 @@ def index(request):
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
-        response = requests.get('http://team-v.herokuapp.com/start/{0}'.format(this_meeting))
+        subreq = Request.blank('/start/{0}'.format(request.GET.get('meeting')))
+        response = request.invoke_subrequest(subreq)
         print response
 
         if response.status_code == 200 or response.status_code == 201:
@@ -84,7 +86,7 @@ def transcript(request):
     else:
         return not_found(request)
 
-@view_config(route_name='start_meeting', request_method='GET')
+@view_config(route_name='start_meeting')
 def start_meeting(request):
     if is_number(request.matchdict['meeting']):
         file_name = 'teamv/templates/logs/log_{0}.log'.format(request.matchdict['meeting'])
