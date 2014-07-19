@@ -44,13 +44,25 @@ $(document).ready(function() {
     $(window).bind("beforeunload", function() {
         socket.disconnect();
     });
-    
-    $('#stop_listening').on('click', function(){
-        recognition.stop();
+
+	   
+    $('#start_listening').on('click', function(){
+	if(document.getElementById('start_listening').className.indexOf("recording_off") > -1)
+	{
+		recognition.stop();
+
+	}
+	else
+	{
+		recognition.start();
+	} 
+	       
+
     });
 
-    $('#start_listening').on('click', function() {
-	    recognition.start();
+	
+    $('.recording_on').on('click', function() {
+	    recognition.stop();
     });
 
     socket.on("chat", function(e) {
@@ -78,19 +90,19 @@ $(document).ready(function() {
     function toggle(el){
    if(el.className=="recording_off")
     {
-	el.setAttribute("id", "stop_listening");
         el.src='/static/images/recording_on.png';
         el.className="recording_on";
 		el.title='Recording';
 	
+	
     }
     else if(el.className=="recording_on")
     {      
-	el.setAttribute("id", "start_listening");
 	el.src='/static/images/recording_off.png';
         el.className="recording_off";
 		el.title='Idle';
 	
+
     }
 
     return false;
