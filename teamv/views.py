@@ -128,7 +128,7 @@ def end_meeting(request):
         cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.matchdict['meeting'], ))
         result = cur.fetchone()
 
-        if result is None or result[1] is not None: # Meeting you want to end does not exist
+        if result is None or result[0] is None or result[1] is not None: # Meeting you want to end does not exist
             cur.close()
             conn.close()
             return Response(status = '400 Bad Request')
@@ -137,7 +137,7 @@ def end_meeting(request):
             cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
             print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
 
-            file_name = 'log_{0}.log'.format(request.GET.get('meeting'))
+            file_name = 'log_{0}.log'.format(request.matchdict['meeting'])
             file_path = 'teamv/templates/logs/{0}'.format(file_name)
             _file = open(file_path, 'r')
             file_data = _file.read()

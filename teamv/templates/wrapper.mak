@@ -11,14 +11,17 @@
             % endif
         </title>
 
+        <!-- JQuery -->
         <script type="text/javascript" src="/static/javascript/jquery.min.js"></script>
+        <!-- SocketIO Library -->
         <script type="text/javascript" src="/static/javascript/socket.io.min.js"></script>
-       <!-- <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
--->
         <link rel="stylesheet" href="/static/css/main_styles.css" rel="stylesheet">
+
+        <!-- Bootstrap core CSS -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="/static/css/signin.css" rel="stylesheet">
 
         <%block name="includes" />
 
