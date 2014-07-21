@@ -144,7 +144,7 @@ def end_meeting(request):
 
             # Upload the completed file to Amazon S3
             access_key = os.environ['AWS_ACCESS_KEY_ID']
-            secret_key = os.environ['AWS_SECRET_KEY']
+            secret_key = os.environ['AWS_SECRET_ACCESS_KEY']
 
             connection = boto.s3.connect_to_region('us-west-1',
                 aws_access_key_id = access_key,
