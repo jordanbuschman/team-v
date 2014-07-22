@@ -132,12 +132,12 @@
 		  <dl class="dl-horizontal">
 			<textarea id="chatlog" readonly="readonly"></textarea>
 			<br />
-			<form name = "chat_form"  id="chat_form">
+			<!--<form name = "chat_form"  id="chat_form">
 				<input type="text" id="chatbox">
-				<button type="submit" id="submit" >Send</button>
+			        <button type="submit" id="submit" >Send</button>
 				<input type="button" id="start_listening" value="Start Listening" onclick="recognition.start()">
-				<input type="button" id="stop_listening" value="Stop Listening" onclick="recognition.stop()"> 
-			</form>
+				<input type="button" id="stop_listening" value="Stop Listening" onclick="recognition.stop()">  
+			</form> -->
           </dl>
         </div>
 		<div id="div_transcript" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
