@@ -35,8 +35,5 @@ TODO:
         - Different meetings based on meeting_number
         - Meeting timestamps need to be altered
         - Meeting start/end times based on WEBEX meeting creation/finishing
-        - When a meeting ends, find send the temp log to CDN and mark it in the database as meeting ended
     DATABASE:
         - Possibly: Find a way to locally develop (write a script, make local db)
-    CDN:
-        - Find a CDN for Heroku (permanent location of logs when they are done recording)
