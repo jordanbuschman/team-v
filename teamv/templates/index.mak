@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%inherit file="wrapper.mak" />
 
 <%block name="includes">
