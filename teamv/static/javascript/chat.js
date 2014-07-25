@@ -92,7 +92,7 @@ $(document).ready(function() {
         var val = $("#chatbox").val();
         socket.emit("chat", val);
         $("#chatbox").val("");
-        $("#chatlog").append(nickname + ": " + val);
+        $("#chatlog").append(nickname + ": " + val + "\n");
 
     });
 
