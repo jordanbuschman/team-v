@@ -6,7 +6,7 @@ function getParameterByName(name) {
 }
 
 $(document).ready(function() {
-    var socket = io.connect('http://localhost:5000/chat');
+    var socket = io.connect('/chat');
     socket.on('connect', function() {
         alert('connect!');
     });
