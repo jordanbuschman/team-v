@@ -7,6 +7,9 @@ function getParameterByName(name) {
 
 $(document).ready(function() {
     var socket = io.connect('http://localhost:5000/chat');
+    socket.on('connect', function() {
+        alert('connect!');
+    });
 
     var meeting = getParameterByName('meeting');
     var nickname = getParameterByName('nickname');
