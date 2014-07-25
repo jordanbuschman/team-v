@@ -132,7 +132,6 @@ def end_meeting(request):
             conn.close()
             return Response(status = '400 Bad Request')
         else: # Meeting is found, end meeting and move transcript to CDN
-            # TODO: Require password to delete meeting
             cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
             print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
 

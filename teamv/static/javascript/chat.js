@@ -5,15 +5,17 @@ function getParameterByName(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-
 $(document).ready(function() {
-    var socket = io.connect('/chat');
-
-    var chatlog = document.getElementById('chatlog');
+    var socket = io.connect('http://localhost:5000/chat');
 
     var meeting = getParameterByName('meeting');
     var nickname = getParameterByName('nickname');
-  
+
+    socket.emit("join", meeting);
+    socket.emit("nickname", nickname);
+
+    var chatlog = document.getElementById('chatlog');
+
     // Compatibility Check
 
     if (!('webkitSpeechRecognition' in window)) {
@@ -70,19 +72,19 @@ $(document).ready(function() {
 	    chatlog.scrollTop = chatlog.scrollHeight;
     });
 
-    socket.on("user_disconnect", function() {
-        $("#chatlog").append("> User disconnected" + "\n");
+    socket.on("user_disconnect", function(e) {
+        $("#chatlog").append(e + " has disconnected\n");
     	chatlog.scrollTop = chatlog.scrollHeight;
     });
 
-    socket.on("user_connect", function() {
-        $("#chatlog").append("> User connected" + "\n");
+    socket.on("user_connect", function(e) {
+        $("#chatlog").append(e + " has connected\n");
     	chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     $("#chat_form").submit(function(e) {
         e.preventDefault();
-        var val = nickname+" : "+$("#chatbox").val();
+        var val = $("#chatbox").val();
         socket.emit("chat", val);
         $("#chatbox").val("");
     });

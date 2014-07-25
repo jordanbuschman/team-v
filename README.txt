@@ -27,7 +27,6 @@ TODO:
         - wrapper.mak needs to be done (header/footer)
         - main_styles.css needs to be done so that there is a consistant syle across all pages
         - All javascript/jquery work needs to be done (login script, script notify others when someone is speaking, etc.)
-        - Voice to text API integration
           highlighting, etc.)
         - Templates need to connect to CDN and pull files from them (or from local location if the meeting is not done)
     BACK END:
