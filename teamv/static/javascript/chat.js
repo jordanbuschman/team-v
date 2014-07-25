@@ -7,12 +7,14 @@ function getParameterByName(name) {
 
 $(document).ready(function() {
     var socket = io.connect('/chat');
-    socket.on('connect', function() {
-        alert('connect!');
-    });
 
     var meeting = getParameterByName('meeting');
     var nickname = getParameterByName('nickname');
+
+    socket.on('connect', function() {
+        $("#chatlog").append(nickname + " has connected\n");
+    	chatlog.scrollTop = chatlog.scrollHeight;
+    });
 
     socket.emit("join", meeting);
     socket.emit("nickname", nickname);
@@ -90,6 +92,8 @@ $(document).ready(function() {
         var val = $("#chatbox").val();
         socket.emit("chat", val);
         $("#chatbox").val("");
+        $("#chatlog").append(nickname + ": " + val);
+
     });
 
     function toggle(el){

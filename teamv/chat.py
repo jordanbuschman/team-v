@@ -9,7 +9,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     start_time = None
 
     def on_chat(self, msg):
-        print msg
         current_time = time.strftime("%H:%M:%S")
         time_elapsed = datetime.strptime(current_time, '%H:%M:%S') - datetime.strptime(self.start_time, '%H:%M:%S')
 
@@ -35,7 +34,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
             f.write('({0}) {1} connected\n'.format(time_elapsed, nickname))
 
     def recv_disconnect(self):
-        current_time = datetime.strftime("%H:%M:%S")
+        current_time = time.strftime("%H:%M:%S")
         time_elapsed = datetime.strptime(current_time, '%H:%M:%S') - datetime.strptime(self.start_time, '%H:%M:%S')
 
         nickname = self.socket.session['nickname']
