@@ -139,16 +139,20 @@
 			</form> 
           </dl>
         </div>
-		<div id="div_transcript" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
+		<div name="div_transcript" id="div_transcript" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
           <h3 class="page-header">Transcript</h3>
-	<input style="position: relative; top: 6px; left: 28px; bottom: 4px;" type="submit" class="btn btn-success" value="Retrieve Transcript"/><br></br>
-			 <h3 class="page-header"></h3>
+	
+	<input style="position: relative; top: 6px; left: 28px; bottom: 4px;" type="button" class="btn btn-success" value="Retrieve Transcript" onclick="load_trans();"/>
+	    
+	     <br>
+	     <br>	
+	     <h3 class="page-header"></h3>
 		  <dl class="dl-horizontal">
-
+		<div id="transcript"></div>
 
           </dl>
         </div>
-        <div class="col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9 sidebar">
+        <!--<div class="col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9 sidebar">
            <h3>Participants</h3><br height: .5em;>
 		   <table class="table table-striped">
 		      <thead></thead>
@@ -195,7 +199,7 @@
                  </tr>
 			  </tbody>
            </table>
-        </div>
+        </div>-->
       </div>
 	</div></div>
     </div>
@@ -220,7 +224,10 @@
     <!-- Placed at the end of the document so the pages load faster -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="/static/javascript/bootstrap.min.js"></script>
+        <!--<script src="/static/javascript/aws-sdk-2.0.9.min.js"></script>-->
+	<script src = "https://sdk.amazonaws.com/js/aws-sdk-2.0.9.min.js"></script>
 	<script src="/static/javascript/myjs.js"></script>
+	<script src="/static/javascript/load_transcript.js"></script>
 	<script>$(document).ready(function(){$('#div_transcript').hide();$('#link_transcript').click(function(){$('#div_home').hide();$('#div_transcript').show();});$('#link_home').click(function(){$('#div_transcript').hide();$('#div_home').show();});});</script>
 	<script>$(document).ready(function(){$('ul.nav > li').click(function(e){e.preventDefault();$('ul.nav > li').removeClass('active');$(this).addClass('active');});});</script>
   </body>
