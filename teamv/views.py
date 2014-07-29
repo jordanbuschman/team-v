@@ -10,10 +10,13 @@ from mako.lookup import TemplateLookup
 from chat import ChatNamespace
 from os import environ, path
 from dbconnect import connect_to_db
+from hashlib import sha1
+from email.utils import formatdate
 
 import os, time, datetime, logging, requests
 import boto
 import boto.s3.connection
+import hmac, binascii
 
 mylookup = TemplateLookup(directories=['teamv/templates'], module_directory='teamv/temp/mako_modules', collection_size=500)
 
@@ -32,7 +35,6 @@ def not_found(request):
 
 @view_config(route_name='home', renderer='mako')
 def index(request):
-    # TODO: Redirect if nickname is not specified
     if 'meeting' in request.GET and 'nickname' in request.GET:
         mytemplate = mylookup.get_template('index.mak')
         this_meeting = request.GET.get('meeting')
@@ -58,7 +60,15 @@ def index(request):
 @view_config(route_name='authorization', renderer='json')
 def authorization(request):
     if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        return {'text': '200 OK', 'status': 200, 'meow': 'asdas'}
+        file_name = 'log_{0}.log'.format(request.POST.get('meeting'))
+        timestamp = formatdate(localtime=True)
+        
+        string_to_sign = 'GET\n\n\n{0}\n/teamvlogfiles/{1}'.format(timestamp, file_name)
+        hashed_string_to_sign = hmac.new(os.environ['AWS_SECRET_ACCESS_KEY'], string_to_sign, sha1)
+        signature = binascii.b2a_base64(hashed_string_to_sign.digest()).rstrip('\n')
+        auth = 'AWS' + ' ' + os.environ['AWS_ACCESS_KEY_ID'] + ':' + signature
+        # Check out http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#UsingTemporarySecurityCredentials for how to give authorization
+        return {'text': '200 OK', 'status': 200, 'auth': auth}
     else:
         request.response.status = 400
         return {'text': '400 Bad Request', 'status': 400}
@@ -89,7 +99,6 @@ def transcript(request):
             print 'Must get file from CDN.'
             mytemplate = mylookup.get_template('transcript.mak')
             result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting, is_local = False)
-
             return Response(result)
         else: # Something went wrong
             return not_found(request)
