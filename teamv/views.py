@@ -55,9 +55,17 @@ def index(request):
         result = mytemplate.render(title = 'Team Valente - Enter meeting', meeting = None, nickname = None)
     return Response(result)
     
+@view_config(route_name='authorization', renderer='json')
+def authorization(request):
+    if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
+        return {'text': '200 OK', 'status': 200, 'meow': 'asdas'}
+    else:
+        request.response.status = 400
+        return {'text': '400 Bad Request', 'status': 400}
+
 @view_config(route_name='transcript', renderer='mako')
 def transcript(request):
-    this_meeting = request.POST.get('meeting')
+    this_meeting = request.matchdict.get('meeting')
 
     if is_number(this_meeting):
         conn = connect_to_db()
@@ -74,12 +82,15 @@ def transcript(request):
             return not_found(request)
         elif result[0] is not None and result[1] is None and os.path.isfile(file_name): # Meeting is in process and still in local memory
             mytemplate = mylookup.get_template('transcript.mak')
-            result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting)
+            result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting, is_local = True)
             return Response(result)
         elif result[0] is not None and result[1] is not None: # Meeting is done, must be in CDN
             # TODO: If log is in CDN, retrieve it
-            print 'Must get file from CDN. But for now, not found.'
-            return not_found(request)
+            print 'Must get file from CDN.'
+            mytemplate = mylookup.get_template('transcript.mak')
+            result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting, is_local = False)
+
+            return Response(result)
         else: # Something went wrong
             return not_found(request)
     else:
