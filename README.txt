@@ -17,8 +17,10 @@ To run:
 You can also do ./run to run the bash script and combine these actions into one.
 --------------------------------------------------------------------------------
 SQL DATABASE:
-    For now, this project uses a heroku PostgreSQL server. Currently, there is no local development (working on it, lol). If you have the heroku toolbelt installed and setup, you can use the following command to initialize the database (DO NOT RUN UNLESS YOU WANT TO DELETE EVERYTHING):
+    This project uses a heroku PostgreSQL server. If you have the heroku toolbelt installed and setup, you can use the following command to initialize the database (DO NOT RUN UNLESS YOU WANT TO DELETE EVERYTHING):
     cat init.sql | heroku pg:psql 
+AMAZON S3:
+    For long-term storage of transcripts, the project uses an amazon S3 bucket. the bucket is teamvlogfiles, hosted in the Northern California (us-west-1) region. If you want to access the bucket on the server, use the environment variablesAWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY. If you want to access the bucket on a client, make a post request to /auth with your meeting number. 
 --------------------------------------------------------------------------------
 TODO:
     WEBEX:
@@ -28,11 +30,8 @@ TODO:
         - main_styles.css needs to be done so that there is a consistant syle across all pages
         - All javascript/jquery work needs to be done (login script, script notify others when someone is speaking, etc.)
           highlighting, etc.)
-        - Templates need to connect to CDN and pull files from them (or from local location if the meeting is not done)
+        - Error handling for transcript.mak javacript to retrieve files
     BACK END:
-        - User nicknames
-        - Different meetings based on meeting_number
-        - Meeting timestamps need to be altered
-        - Meeting start/end times based on WEBEX meeting creation/finishing
-    DATABASE:
-        - Possibly: Find a way to locally develop (write a script, make local db)
+        - View that says "your meeting has ended, but you can view the transcript here" has to be done
+        - When a meeting ends, everyone must get kicked off of the chat and redirected to page described above
+        - Error handling for /auth view

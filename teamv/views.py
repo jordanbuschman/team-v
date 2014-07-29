@@ -42,7 +42,7 @@ def index(request):
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
         data = {'meeting': request.GET.get('meeting')}
-        response = requests.post('http://team-v.herokuapp.com/start', data=data)
+        response = requests.post('http://localhost:5000/start', data=data)
 
         if response.status_code == 200 or response.status_code == 201:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
@@ -96,7 +96,6 @@ def transcript(request):
             return Response(result)
         elif result[0] is not None and result[1] is not None: # Meeting is done, must be in CDN
             # TODO: If log is in CDN, retrieve it
-            print 'Must get file from CDN.'
             mytemplate = mylookup.get_template('transcript.mak')
             result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting, is_local = False)
             return Response(result)
@@ -116,7 +115,11 @@ def start_meeting(request):
         result = cur.fetchone()
 
         if result is None and not os.path.isfile(file_name): # Meeting is open but not created, so create it
-            open(file_name, 'w').close()
+            timestamp = formatdate(localtime=True)
+            log_file = open(file_name, 'w')
+            log_file.write('--Meeting started at {0}--\n'.format(timestamp))
+            log_file.close()
+
             cur.execute('INSERT INTO meetings (meeting) VALUES (%s)', (request.POST.get('meeting'), ))
             print 'INSERT INTO meetings (meeting) VALUES ({0})'.format(request.POST.get('meeting'))
             cur.close()
@@ -157,9 +160,15 @@ def end_meeting(request):
 
             file_name = 'log_{0}.log'.format(request.POST.get('meeting'))
             file_path = 'teamv/templates/logs/{0}'.format(file_name)
-            _file = open(file_path, 'r')
-            file_data = _file.read()
-            _file.close()
+
+            timestamp = formatdate(localtime=True)
+
+            log_file = open(file_path, 'a')
+            log_file.write('--Meeting ended at {0}--\n'.format(timestamp))
+            log_file.close()
+            log_file = open(file_path, 'r')
+            file_data = log_file.read()
+            log_file.close()
 
             # Upload the completed file to Amazon S3
             access_key = os.environ['AWS_ACCESS_KEY_ID']
