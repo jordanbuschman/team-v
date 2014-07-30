@@ -75,6 +75,7 @@ def authorization(request):
         hashed_string_to_sign = hmac.new(os.environ['AWS_SECRET_ACCESS_KEY'], string_to_sign, sha1)
         signature = binascii.b2a_base64(hashed_string_to_sign.digest()).rstrip('\n')
         auth = 'AWS' + ' ' + os.environ['AWS_ACCESS_KEY_ID'] + ':' + signature
+        # Check out http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#UsingTemporarySecurityCredentials for how to give authorization
         return {'text': '200 OK', 'status': 200, 'auth': auth}
     else:
         request.response.status = 400
@@ -203,10 +204,10 @@ def end_meeting(request):
             this_meeting = request.POST.get('meeting')
 	  
 	    #request.method = 'GET'
-	    request_get = request.copy_get()
-	    request_get.query_string = "meeting=" + this_meeting
-            #return redirect(request, meeting_num=this_meeting) 
-	    return index(request_get)
+	    #request_get = request.copy_get()
+	    #request_get.query_string = "meeting=" + this_meeting
+            return redirect(request, meeting_num=this_meeting) 
+	    #return index(request_get)
     else:
         return Response(status = '400 Bad Request')
 

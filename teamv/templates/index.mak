@@ -241,12 +241,13 @@
 		 // For End Meeting button
     
     var meeting = getParameterByName('meeting');
-    var hidden_div = document.getElementById("hidden");
+    var form = document.getElementById("end_meeting");
     var m_num = document.createElement('input');
     m_num.type = 'hidden';
     m_num.name = 'meeting';
     m_num.value = meeting;
-    hidden_div.appendChild(m_num);
+    form.action = '/end?meeting=' + meeting;
+    form.appendChild(m_num);
     br = document.createElement('br');
     hidden_div.appendChild(br);
     return false;
