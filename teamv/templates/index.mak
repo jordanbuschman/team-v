@@ -2,6 +2,7 @@
 
 <%block name="includes">
     % if meeting is not None and nickname is not None:
+
         <script type="text/javascript" src="/static/javascript/chat.js"></script>
     % endif
 </%block>
@@ -237,7 +238,7 @@
 
 	<script>$(document).ready(function(){$('#div_transcript').hide();$('#link_transcript').click(function(){$('#div_home').hide();$('#div_transcript').show();});$('#link_home').click(function(){$('#div_transcript').hide();$('#div_home').show();});});</script>
 	<script>$(document).ready(function(){$('ul.nav > li').click(function(e){e.preventDefault();$('ul.nav > li').removeClass('active');$(this).addClass('active');});});</script>
-  	<script>$(document).ready(function(){
+    <script>$(document).ready(function(){
 		 // For End Meeting button
     
     var meeting = getParameterByName('meeting');
@@ -248,10 +249,10 @@
     m_num.value = meeting;
     form.action = '/end?meeting=' + meeting;
     form.appendChild(m_num);
-    br = document.createElement('br');
-    hidden_div.appendChild(br);
+
     return false;
 	});</script>
+    
     </body>
 </html>
 
