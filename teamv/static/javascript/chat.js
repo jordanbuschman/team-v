@@ -5,6 +5,8 @@ function getParameterByName(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+
+
 $(document).ready(function() {
     var socket = io.connect('/chat');
 
@@ -48,6 +50,7 @@ $(document).ready(function() {
         };
     }
     
+ 
     $(window).bind("beforeunload", function() {
         socket.disconnect();
     });
@@ -116,6 +119,9 @@ $(document).ready(function() {
 
     return false;
 }  
+
+
+
 
 });
 

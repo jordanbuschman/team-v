@@ -26,4 +26,16 @@ function toggle(el){
     }
 
     return false;
-}  
+} 
+/*
+var meeting = getParameterByName('meeting');
+
+ // For End Meeting button
+    var end_form = document.getElementById("end_meeting");
+    var m_num = document.createElement('input');
+    m_num.type = 'hidden';
+    m_num.name = 'meeting';
+    m_num.value = meeting;
+    end_form.append(m_num);
+
+ */

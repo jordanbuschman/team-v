@@ -1,4 +1,6 @@
-from pyramid.httpexceptions import HTTPNotFound
+
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from pyramid.url import route_url
 from pyramid.response import Response
 from pyramid.response import FileResponse
 from pyramid.request import Request
@@ -49,9 +51,15 @@ def index(request):
         elif response.status_code == 403:
             # TODO: Redirect to a page telling you that the meeting is over, but you can see the transcript on the CDN
             print 'This is SUPPOSED to redirect to a page telling you that you can view the now-over meeting\'s transcript, but for now, not found.'
-            return not_found(request)
+            #return not_found(request)
+	    return redirect(request, meeting_num=this_meeting)
         else: # Bad request, return not found
             return not_found(request)
+	    #return redirect(request)
+    elif 'meeting' in request.GET:
+	mytemplate = mylookup.get_template('index.mak')
+        this_meeting = request.GET.get('meeting')
+	return redirect(request, meeting_num=this_meeting)
     else:
         mytemplate = mylookup.get_template('index.mak')
         result = mytemplate.render(title = 'Team Valente - Enter meeting', meeting = None, nickname = None)
@@ -141,7 +149,7 @@ def start_meeting(request):
     else: # Invalid request
         return Response(status = '400 Bad Request') # No meeting number specified, bad request
 
-@view_config(route_name='end_meeting', request_method='POST')
+@view_config(route_name='end_meeting', request_method='POST', renderer='mako')
 def end_meeting(request):
     if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
         conn = connect_to_db()
@@ -151,10 +159,12 @@ def end_meeting(request):
         result = cur.fetchone()
 
         if result is None or result[0] is None or result[1] is not None: # Meeting you want to end does not exist
-            cur.close()
+	    cur.close()
             conn.close()
             return Response(status = '400 Bad Request')
         else: # Meeting is found, end meeting and move transcript to CDN
+	    
+
             cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
             print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
 
@@ -190,9 +200,26 @@ def end_meeting(request):
 
             cur.close()
             conn.close()
-            return Response(status = '200 OK')
+	   
+            this_meeting = request.POST.get('meeting')
+	  
+	    #request.method = 'GET'
+	    request_get = request.copy_get()
+	    request_get.query_string = "meeting=" + this_meeting
+            #return redirect(request, meeting_num=this_meeting) 
+	    return index(request_get)
     else:
         return Response(status = '400 Bad Request')
+
+@view_config(route_name='redirect', renderer='mako', request_method='GET')
+def redirect(request, meeting_num):
+    
+    this_meeting = meeting_num
+    #request.GET.get('meeting')
+    mytemplate = mylookup.get_template('redirect.mak')
+    result = mytemplate.render(title = 'Team Valente - Meeting {0} Over'.format(this_meeting), meeting = this_meeting)
+    return Response(result)
+
             
 @view_config(route_name='socketio')
 def socketio(request):

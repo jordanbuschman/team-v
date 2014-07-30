@@ -130,6 +130,13 @@
           
 		  <dl class="dl-horizontal">
 			<textarea id="chatlog" readonly="readonly"></textarea>
+			
+			<form name="end_meeting" id="end_meeting" method="POST" action="/end">
+			<p id="hidden"></p>
+			<input type="submit" value="End Meeting" style="position: relative; top: 6px; left: 28px; bottom: 4px;" class="btn btn-success">
+			</form>
+			
+
 			<br />
 			<form name = "chat_form"  id="chat_form">
 				<input type="hidden" id="chatbox">
@@ -152,19 +159,19 @@
 
           </dl>
         </div>
-        <!--<div class="col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9 sidebar">
+        <div class="col-sm-3 col-sm-offset-9 col-md-3 col-md-offset-9 sidebar">
            <h3>Participants</h3><br height: .5em;>
 		   <table class="table table-striped">
 		      <thead></thead>
 			  <tbody>
-                 <tr>
+                 <!--<tr>
                     <td>Shlomi Barsheshet</td>
                    
-                 </tr>
+                 </tr>-->
 				 <tr>
                     <td>Michael Brunger</td>
                   
-                 </tr>
+                 <!--</tr>
 				 <tr>
                     <td>Jordan Buschman</td>
                  
@@ -172,7 +179,7 @@
 				 <tr>
                     <td>Teddy Chivetta</td>
                 
-                 </tr>
+                 </tr>-->
 				 <tr>
                     <td>Rahul Daware</td>
                
@@ -181,7 +188,7 @@
                     <td>Andrew Green</td>
               
                  </tr>
-				 <tr>
+		<!--		 <tr>
                     <td>Pratik Pankaj</td>
              
                  </tr>
@@ -196,10 +203,10 @@
 				 <tr>
                     <td>Jose Vega</td>
                
-                 </tr>
+                 </tr>-->
 			  </tbody>
            </table>
-        </div>-->
+        </div>
       </div>
 	</div></div>
     </div>
@@ -227,10 +234,24 @@
         <!--<script src="/static/javascript/aws-sdk-2.0.9.min.js"></script>-->
 	<script src = "https://sdk.amazonaws.com/js/aws-sdk-2.0.9.min.js"></script>
 	<script src="/static/javascript/myjs.js"></script>
-	<script src="/static/javascript/load_transcript.js"></script>
+
 	<script>$(document).ready(function(){$('#div_transcript').hide();$('#link_transcript').click(function(){$('#div_home').hide();$('#div_transcript').show();});$('#link_home').click(function(){$('#div_transcript').hide();$('#div_home').show();});});</script>
 	<script>$(document).ready(function(){$('ul.nav > li').click(function(e){e.preventDefault();$('ul.nav > li').removeClass('active');$(this).addClass('active');});});</script>
-  </body>
+  	<script>$(document).ready(function(){
+		 // For End Meeting button
+    
+    var meeting = getParameterByName('meeting');
+    var hidden_div = document.getElementById("hidden");
+    var m_num = document.createElement('input');
+    m_num.type = 'hidden';
+    m_num.name = 'meeting';
+    m_num.value = meeting;
+    hidden_div.appendChild(m_num);
+    br = document.createElement('br');
+    hidden_div.appendChild(br);
+    return false;
+	});</script>
+    </body>
 </html>
 
 
