@@ -67,7 +67,6 @@ def authorization(request):
         hashed_string_to_sign = hmac.new(os.environ['AWS_SECRET_ACCESS_KEY'], string_to_sign, sha1)
         signature = binascii.b2a_base64(hashed_string_to_sign.digest()).rstrip('\n')
         auth = 'AWS' + ' ' + os.environ['AWS_ACCESS_KEY_ID'] + ':' + signature
-        # Check out http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#UsingTemporarySecurityCredentials for how to give authorization
         return {'text': '200 OK', 'status': 200, 'auth': auth}
     else:
         request.response.status = 400
