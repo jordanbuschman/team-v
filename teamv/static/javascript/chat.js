@@ -99,6 +99,17 @@ $(document).ready(function() {
 
     });
 
+    $("#end_meeting").submit(function(e) {
+       // var meeting = getparameterByName('meeting');
+        e.preventDefault();
+        socket.emit("end", meeting)
+        return false;
+    });
+
+    socket.on("end", function(e) {
+        window.location.replace("/?meeting=" + e);
+    });
+
     function toggle(el){
    if(el.className=="recording_off")
     {
