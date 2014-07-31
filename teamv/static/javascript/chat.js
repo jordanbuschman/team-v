@@ -76,14 +76,15 @@ $(document).ready(function() {
 	    url: "/end",
 	    data: {'meeting': meeting},
 	    success: function(data){
-		socket.emit("end");
-		//io.sockets.to(meeting).emit("end");
-		location.reload();
+		    socket.emit("end");
+            socket.disconnect();
+		    location.reload();
 	    }
 	});
     });
 
      socket.on("end", function() {
+        socket.disconnect();
         location.reload();
     });
 	
