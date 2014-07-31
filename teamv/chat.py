@@ -12,9 +12,9 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         current_time = time.strftime("%H:%M:%S")
         time_elapsed = datetime.strptime(current_time, '%H:%M:%S') - datetime.strptime(self.start_time, '%H:%M:%S')
 
-        self.emit_to_room(self.room, 'chat', '{0}: {1}'.format(self.socket.session['nickname'], msg))
+        self.emit_to_room(self.room, 'chat', '{0}: {1}'.format(self.socket.session['nickname'], msg.lstrip()))
         with open('teamv/templates/logs/log_{0}.log'.format(self.room), 'a') as f:
-            f.write('({0}) {1}: {2}\n'.format(time_elapsed, self.socket.session['nickname'], msg))
+            f.write('({0}) {1}: {2}\n'.format(time_elapsed, self.socket.session['nickname'], msg.lstrip()))
     
     def on_join(self, room):
         self.room = room

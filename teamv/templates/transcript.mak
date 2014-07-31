@@ -16,7 +16,6 @@
 % if not is_local:
 <script type="text/javascript">
     $(document).ready(function() {
-        var url = "https://s3-us-west-1.amazonaws.com/teamvlogfiles/log_${meeting}.log";
         $.post("/auth", { meeting: ${meeting} })
             .done(function(response) {
                 $.ajax({

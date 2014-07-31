@@ -37,29 +37,21 @@ def not_found(request):
 
 @view_config(route_name='home', renderer='mako')
 def index(request):
-    if 'meeting' in request.GET and 'nickname' in request.GET:
+    if 'meeting' in request.GET:
         mytemplate = mylookup.get_template('index.mak')
         this_meeting = request.GET.get('meeting')
         this_nickname = request.GET.get('nickname')
         file_name = 'teamv/templates/logs/log_{0}.log'.format(this_meeting)
 
         data = {'meeting': request.GET.get('meeting')}
-        response = requests.post('http://team-v.herokuapp.com/start', data=data)
+        response = requests.post('http://localhost:5000/start', data=data)
 
-        if response.status_code == 200 or response.status_code == 201:
+        if response.status_code == 200 or response.status_code == 201 and 'nickname' in request.GET:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
-        elif response.status_code == 403:
-            # TODO: Redirect to a page telling you that the meeting is over, but you can see the transcript on the CDN
-            print 'This is SUPPOSED to redirect to a page telling you that you can view the now-over meeting\'s transcript, but for now, not found.'
-            #return not_found(request)
-	    return redirect(request, meeting_num=this_meeting)
+        elif response.status_code == 403: # Meeting over
+	        return redirect(request, meeting = this_meeting)
         else: # Bad request, return not found
             return not_found(request)
-	    #return redirect(request)
-    elif 'meeting' in request.GET:
-	mytemplate = mylookup.get_template('index.mak')
-        this_meeting = request.GET.get('meeting')
-	return redirect(request, meeting_num=this_meeting)
     else:
         mytemplate = mylookup.get_template('index.mak')
         result = mytemplate.render(title = 'Team Valente - Enter meeting', meeting = None, nickname = None)
@@ -206,9 +198,8 @@ def end_meeting(request):
         return Response(status = '400 Bad Request')
 
 @view_config(route_name='redirect', renderer='mako', request_method='GET')
-def redirect(request, meeting_num):
-    
-    this_meeting = meeting_num
+def redirect(request, meeting):
+    this_meeting = meeting
     #request.GET.get('meeting')
     mytemplate = mylookup.get_template('redirect.mak')
     result = mytemplate.render(title = 'Team Valente - Meeting {0} Over'.format(this_meeting), meeting = this_meeting)

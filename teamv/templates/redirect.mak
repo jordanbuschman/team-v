@@ -32,9 +32,9 @@
     <div class="container">
         <br/><br/><br/>
 	
-	    <h2 class="form-signin-heading">This meeting has ended.</h2><h3></h3>
+	    <h2 class="form-signin-heading">This meeting has ended.</h2>
 	    <br>
-	    <div id = 'link_area'></div> <br><br><br>
+	    <div id = 'link_area'>The transcript for meeting #${meeting} has ended. Click <a href="/logs/${meeting}">here</a> to see the transcript.</div> <br><br><br>
 
      </div> <!-- /container -->
         </div>
@@ -50,26 +50,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="/static/javascript/bootstrap.min.js"></script>
-
-    <script>$(document).ready(function(){
-	
-	function getParameterByName(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
-	
-	var meeting = getParameterByName('meeting')
-	var div = document.getElementById('link_area')
-	var link = document.createElement('a');
-	link.href = "logs/" + meeting;
-	link.innerHTML = "The transcript for meeting #" + meeting + " may be viewed here.";
-	div.appendChild(link);
-	br = document.createElement('br');
-        div.appendChild(br);
-        return false;
-    });</script>
 
   </body>
 </html>
