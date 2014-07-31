@@ -94,7 +94,6 @@ def transcript(request):
             result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting, is_local = True)
             return Response(result)
         elif result[0] is not None and result[1] is not None: # Meeting is done, must be in CDN
-            # TODO: If log is in CDN, retrieve it
             mytemplate = mylookup.get_template('transcript.mak')
             result = mytemplate.render(title = 'Team Valente - Transcript {0}'.format(this_meeting), meeting = this_meeting, is_local = False)
             return Response(result)
@@ -143,16 +142,13 @@ def start_meeting(request):
 @view_config(route_name='end_meeting', request_method='POST', renderer='mako')
 def end_meeting(request):
     if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        print 'meeting: {0}'.format(request.POST.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
         cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.POST.get('meeting'), ))
         result = cur.fetchone()
-        print 'The result is :{0}'.format(result)
 
         if result is None or result[0] is None or result[1] is not None: # Meeting you want to end does not exist
-            print 'MEOW'
             cur.close()
             conn.close()
             return Response(status = '400 Bad Request')
@@ -197,10 +193,9 @@ def end_meeting(request):
     else:
         return Response(status = '400 Bad Request')
 
-@view_config(route_name='redirect', renderer='mako', request_method='GET')
+@view_config(route_name='redirect', renderer='mako')
 def redirect(request, meeting):
     this_meeting = meeting
-    #request.GET.get('meeting')
     mytemplate = mylookup.get_template('redirect.mak')
     result = mytemplate.render(title = 'Team Valente - Meeting {0} Over'.format(this_meeting), meeting = this_meeting)
     return Response(result)
