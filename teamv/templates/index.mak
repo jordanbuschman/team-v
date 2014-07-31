@@ -8,13 +8,6 @@
 </%block>
 
 % if meeting is None or nickname is None:
-   <!-- <form name="enter_meeting" method="GET" action="/">
-        <p>Enter your nickname and meeting number</p>
-        Nickname: <input type="text" name="nickname" placeholder="&quot;Jim Smith&quot;"><br/>
-        Meeting number: <input type="text" name="meeting" placeholder="&quot;12345678&quot;"><br/>
-        <input type="submit" value="Submit">
-    </form> -->
-
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -50,14 +43,6 @@
         <h2 class="form-signin-heading">Join a WebEx Meeting</h2><h3></h3>
         <input name="nickname" type="name" class="form-control" placeholder="Name" required autofocus>
         <input name="meeting" type="meeting_number" class="form-control" placeholder="Meeting Number" required>
-  <!--      <input type="meeting_password" class="form-control" placeholder="Meeting Password" required> -->
-		<!--
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-		-->
 		<h3></h3>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Join</button>
       </form>
@@ -125,17 +110,9 @@
         </div>
         <div id="div_home" class="col-sm-7 col-sm-offset-2 col-md-7 col-md-offset-2 main">
 	 <h3 class="sub-header"><input style="position: relative; top: 6px; left: 6px;" type="image" id="start_listening" src="/static/images/recording_off.png" title="Idle" class="recording_off" onclick="toggle(this);"/>&nbsp;&nbsp;Live Subtitles</h3>
-                    <!-- <div class="row">
-		     <img src="/static/images/Video.png" alt="Video">
-          </div> -->
-          
 		  <dl class="dl-horizontal">
 			<textarea id="chatlog" readonly="readonly"></textarea>
 			
-		<!--	<form name="end_meeting" id="end_meeting" method="POST" action="/end">
-			<p id="hidden"></p>
-			<input type="submit" value="End Meeting" style="position: relative; top: 6px; left: 28px; bottom: 4px;" class="btn btn-success">
-			</form>-->
 			<button name="end_meeting" id="end_meeting" type="button" style="position: relative; top: 6px; left: 28px; bottom: 4px;" class="btn btn-success">End Meeting</button>	
 			
 
@@ -164,61 +141,19 @@
 		   <table class="table table-striped">
 		      <thead></thead>
 			  <tbody>
-                 <!--<tr>
-                    <td>Shlomi Barsheshet</td>
-                   
-                 </tr>-->
-				 <tr>
-                    <td>Michael Brunger</td>
-                  
-                 <!--</tr>
-				 <tr>
-                    <td>Jordan Buschman</td>
-                 
-                 </tr>
-				 <tr>
-                    <td>Teddy Chivetta</td>
-                
-                 </tr>-->
 				 <tr>
                     <td>Rahul Daware</td>
                
                  </tr>
                  <tr>
                     <td>Andrew Green</td>
-              
                  </tr>
-		<!--		 <tr>
-                    <td>Pratik Pankaj</td>
-             
-                 </tr>
-				 <tr>
-                    <td>Harika Sabella</td>
-                 
-                 </tr>
-				 <tr>
-                    <td>JL Valente</td>
-                
-                 </tr>
-				 <tr>
-                    <td>Jose Vega</td>
-               
-                 </tr>-->
 			  </tbody>
            </table>
         </div>
       </div>
 	</div></div>
     </div>
-	<!--
-	<div class="navbar navbar-fixed-bottom">
-	<div class="navbar-inner">
-	  <div class="container">
-        <p class="muted credit"><center>&copy; 2014 Cisco and/or its affiliates. All rights reserved.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.webex.com"><img src="cisco_logo.png" width="70" height="35" alt="Cisco Logo"></a></center></p>
-      </div>
-	</div>
-	</div>
-	-->
 	
 	<div class="footer">
 	  <div class="container">
@@ -237,21 +172,6 @@
 
 	<script>$(document).ready(function(){$('#div_transcript').hide();$('#link_transcript').click(function(){$('#div_home').hide();$('#div_transcript').show();});$('#link_home').click(function(){$('#div_transcript').hide();$('#div_home').show();});});</script>
 	<script>$(document).ready(function(){$('ul.nav > li').click(function(e){e.preventDefault();$('ul.nav > li').removeClass('active');$(this).addClass('active');});});</script>
-   <!-- <script>$(document).ready(function(){
-		 // For End Meeting button
-    
-    var meeting = getParameterByName('meeting');
-    var form = document.getElementById("end_meeting");
-    var m_num = document.createElement('input');
-    m_num.type = 'hidden';
-    m_num.name = 'meeting';
-    m_num.value = meeting;
-    form.action = '/end?meeting=' + meeting;
-    form.appendChild(m_num);
-
-    return false;
-	});</script>
-   --> 
     </body>
 </html>
 

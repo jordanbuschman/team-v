@@ -71,16 +71,16 @@ $(document).ready(function() {
     });
 
     $('#end_meeting').on('click', function() {		
-	$.ajax({
-	    type: "POST",
-	    url: "/end",
-	    data: {'meeting': meeting},
-	    success: function(data){
-		    socket.emit("end");
-            socket.disconnect();
-		    location.reload();
-	    }
-	});
+	    $.ajax({
+	        type: "POST",
+	        url: "/end",
+	        data: {'meeting': meeting},
+	        success: function(data){
+	    	    socket.emit("end");
+                socket.disconnect();
+	    	    location.reload();
+	        }
+	    });
     });
 
      socket.on("end", function() {
