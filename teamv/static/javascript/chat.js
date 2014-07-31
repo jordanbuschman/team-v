@@ -70,6 +70,22 @@ $(document).ready(function() {
 
     });
 
+    $('#end_meeting').on('click', function() {		
+	$.ajax({
+	    type: "POST",
+	    url: "/end",
+	    data: {'meeting': meeting},
+	    success: function(data){
+		socket.emit("end");
+		//io.sockets.to(meeting).emit("end");
+		location.reload();
+	    }
+	});
+    });
+
+     socket.on("end", function() {
+        location.reload();
+    });
 	
     $('.recording_on').on('click', function() {
 	    recognition.stop();
@@ -97,17 +113,6 @@ $(document).ready(function() {
         $("#chatbox").val("");
         $("#chatlog").append(nickname + ": " + val + "\n");
 
-    });
-
-    $("#end_meeting").submit(function(e) {
-       // var meeting = getparameterByName('meeting');
-        e.preventDefault();
-        socket.emit("end", meeting)
-        return false;
-    });
-
-    socket.on("end", function(e) {
-        window.location.replace("/?meeting=" + e);
     });
 
     function toggle(el){

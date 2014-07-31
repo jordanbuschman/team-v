@@ -33,6 +33,9 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         with open('teamv/templates/logs/log_{0}.log'.format(self.room), 'a') as f:
             f.write('({0}) {1} connected\n'.format(time_elapsed, nickname))
 
+    def on_end(self):
+        self.emit_to_room(self.room, 'end')
+
     def recv_disconnect(self):
         current_time = time.strftime("%H:%M:%S")
         time_elapsed = datetime.strptime(current_time, '%H:%M:%S') - datetime.strptime(self.start_time, '%H:%M:%S')
@@ -43,3 +46,8 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         with open('teamv/templates/logs/log_{0}.log'.format(self.room), 'a') as f:
             f.write('({0}) {1} disconnected\n'.format(time_elapsed, nickname))
         self.disconnect(silent=True)
+
+
+
+
+

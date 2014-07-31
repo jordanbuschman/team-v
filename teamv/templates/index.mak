@@ -132,18 +132,17 @@
 		  <dl class="dl-horizontal">
 			<textarea id="chatlog" readonly="readonly"></textarea>
 			
-			<form name="end_meeting" id="end_meeting" method="POST" action="/end">
+		<!--	<form name="end_meeting" id="end_meeting" method="POST" action="/end">
 			<p id="hidden"></p>
 			<input type="submit" value="End Meeting" style="position: relative; top: 6px; left: 28px; bottom: 4px;" class="btn btn-success">
-			</form>
+			</form>-->
+			<button name="end_meeting" id="end_meeting" type="button" style="position: relative; top: 6px; left: 28px; bottom: 4px;" class="btn btn-success">End Meeting</button>	
 			
 
 			<br />
 			<form name = "chat_form"  id="chat_form">
 				<input type="hidden" id="chatbox">
-			<!--        <button type="submit" id="submit" >Send</button>
-			<!--	<input type="button" id="start_listening" value="Start Listening" onclick="recognition.start()">
-				<input type="button" id="stop_listening" value="Stop Listening" onclick="recognition.stop()">  -->
+	
 			</form> 
           </dl>
         </div>
@@ -238,7 +237,7 @@
 
 	<script>$(document).ready(function(){$('#div_transcript').hide();$('#link_transcript').click(function(){$('#div_home').hide();$('#div_transcript').show();});$('#link_home').click(function(){$('#div_transcript').hide();$('#div_home').show();});});</script>
 	<script>$(document).ready(function(){$('ul.nav > li').click(function(e){e.preventDefault();$('ul.nav > li').removeClass('active');$(this).addClass('active');});});</script>
-    <script>$(document).ready(function(){
+   <!-- <script>$(document).ready(function(){
 		 // For End Meeting button
     
     var meeting = getParameterByName('meeting');
@@ -252,7 +251,7 @@
 
     return false;
 	});</script>
-    
+   --> 
     </body>
 </html>
 

@@ -201,13 +201,7 @@ def end_meeting(request):
             cur.close()
             conn.close()
 	   
-            this_meeting = request.POST.get('meeting')
-	  
-	    #request.method = 'GET'
-	    #request_get = request.copy_get()
-	    #request_get.query_string = "meeting=" + this_meeting
-            return redirect(request, meeting_num=this_meeting) 
-	    #return index(request_get)
+            return Response(status = '200 OK')
     else:
         return Response(status = '400 Bad Request')
 
