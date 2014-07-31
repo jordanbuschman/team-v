@@ -138,7 +138,6 @@ def start_meeting(request):
             logging.error('Meeting could not be created or joined')
             return Response(status = '404 Not Found')
     else: # Invalid request
-        print 'meowmeow'
         return Response(status = '400 Bad Request') # No meeting number specified, bad request
 
 @view_config(route_name='end_meeting', request_method='POST', renderer='mako')
@@ -150,7 +149,7 @@ def end_meeting(request):
 
         cur.execute('SELECT id, time_finished FROM meetings WHERE meeting=%s', (request.POST.get('meeting'), ))
         result = cur.fetchone()
-        print result
+        print 'The result is :{0}'.format(result)
 
         if result is None or result[0] is None or result[1] is not None: # Meeting you want to end does not exist
             print 'MEOW'
