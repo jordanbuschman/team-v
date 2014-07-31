@@ -5,8 +5,6 @@ function getParameterByName(name) {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-
-
 $(document).ready(function() {
     var socket = io.connect('/chat');
 
@@ -15,7 +13,7 @@ $(document).ready(function() {
 
     socket.on('connect', function() {
         $("#chatlog").append(nickname + " has connected\n");
-    	chatlog.scrollTop = chatlog.scrollHeight;
+        chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.emit("join", meeting);
@@ -26,8 +24,8 @@ $(document).ready(function() {
     // Compatibility Check
 
     if (!('webkitSpeechRecognition' in window)) {
-	    upgrade();
-    } 	
+        upgrade();
+    }     
     window.SpeechRecognition = window.SpeechRecognition       ||
                                window.webkitSpeechRecognition ||
                                null;
@@ -42,10 +40,10 @@ $(document).ready(function() {
         recognition.continuous = true;
         recognition.onresult = function(event) {
             for(var i = event.resultIndex; i < event.results.length; i++){
-        	    if(event.results.length > 0){
-        	        chatbox.value = event.results[i][0].transcript;
-        	        $('#chat_form').submit();
-        	    }
+                if(event.results.length > 0){
+                    chatbox.value = event.results[i][0].transcript;
+                    $('#chat_form').submit();
+                }
             }
         };
     }
@@ -55,61 +53,56 @@ $(document).ready(function() {
         socket.disconnect();
     });
 
-	   
+       
     $('#start_listening').on('click', function(){
-	if(document.getElementById('start_listening').className.indexOf("recording_off") > -1)
-	{
-		recognition.stop();
-
-	}
-	else
-	{
-		recognition.start();
-	} 
-	       
-
+        if(document.getElementById('start_listening').className.indexOf("recording_off") > -1) {
+            recognition.stop();
+        }
+        else {
+            recognition.start();
+        } 
     });
 
-    $('#end_meeting').on('click', function() {		
-	    $.ajax({
-	        type: "POST",
-	        url: "/end",
-	        data: {'meeting': meeting},
-	        success: function(data){
-	    	    socket.emit("end");
+    $('#end_meeting').on('click', function() {        
+        $.ajax({
+            type: "POST",
+            url: "/end",
+            data: {'meeting': meeting},
+            success: function(data){
+                socket.emit("end");
                 socket.disconnect();
-	    	    location.reload();
-	        }
-	    });
+                location.reload();
+            }
+        });
     });
 
      socket.on("end", function() {
         socket.disconnect();
         location.reload();
     });
-	
+    
     $('.recording_on').on('click', function() {
-	    recognition.stop();
+        recognition.stop();
     });
 
     socket.on("chat", function(e) {
         $("#chatlog").append(e + "\n");
-	    chatlog.scrollTop = chatlog.scrollHeight;
+        chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.on("user_disconnect", function(e) {
         $("#chatlog").append(e + " has disconnected\n");
-    	chatlog.scrollTop = chatlog.scrollHeight;
+        chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.on("user_connect", function(e) {
         $("#chatlog").append(e + " has connected\n");
-    	chatlog.scrollTop = chatlog.scrollHeight;
+        chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     $("#chat_form").submit(function(e) {
         e.preventDefault();
-        var val = $("#chatbox").val();
+        var val = $("#chatbox").val().strip();
         socket.emit("chat", val);
         $("#chatbox").val("");
         $("#chatlog").append(nickname + ": " + val + "\n");
@@ -117,30 +110,16 @@ $(document).ready(function() {
     });
 
     function toggle(el){
-   if(el.className=="recording_off")
-    {
-        el.src='/static/images/recording_on.png';
-        el.className="recording_on";
-		el.title='Recording';
-	
-	
+        if(el.className=="recording_off") {
+            el.src='/static/images/recording_on.png';
+            el.className="recording_on";
+            el.title='Recording';
+        }
+        else if(el.className=="recording_on") {      
+            el.src='/static/images/recording_off.png';
+            el.className="recording_off";
+            el.title='Idle';
+        }
+        return false;
     }
-    else if(el.className=="recording_on")
-    {      
-	el.src='/static/images/recording_off.png';
-        el.className="recording_off";
-		el.title='Idle';
-	
-
-    }
-
-    return false;
-}  
-
-
-
-
 });
-
-
-
