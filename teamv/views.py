@@ -144,7 +144,7 @@ def start_meeting(request):
 @view_config(route_name='end_meeting', request_method='POST', renderer='mako')
 def end_meeting(request):
     if 'meeting' in request.POST and is_number(request.POST.get('meeting')):
-        print 'meeting: {0}'.format(request.POST.get('meeting')
+        print 'meeting: {0}'.format(request.POST.get('meeting'))
         conn = connect_to_db()
         cur = conn.cursor()
 
