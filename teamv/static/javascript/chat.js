@@ -102,7 +102,7 @@ $(document).ready(function() {
 
     $("#chat_form").submit(function(e) {
         e.preventDefault();
-        var val = $("#chatbox").val().strip();
+        var val = $("#chatbox").val().trim();
         socket.emit("chat", val);
         $("#chatbox").val("");
         $("#chatlog").append(nickname + ": " + val + "\n");
