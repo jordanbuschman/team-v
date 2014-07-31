@@ -1,8 +1,8 @@
 team-v README
 --------------------------------------------------------------------------------
-Our server: team-v.herokuapp.com
+Our server: https://team-v.herokuapp.com
 --------------------------------------------------------------------------------
-SETUP AND RUNNING THE APP:
+SETUP AND RUNNING THE APP LOCALLY:
 To set up your environment, run the following commands (on Ubuntu):
     sudo apt-get install python-dev
     sudo apt-get install postgresql
@@ -15,6 +15,8 @@ To run:
     python runapp.py
 
 You can also do ./run to run the bash script and combine these actions into one.
+
+The main page should be at http://localhost:5000 (HTTP, NOT HTTPS for local).
 --------------------------------------------------------------------------------
 SQL DATABASE:
     This project uses a heroku PostgreSQL server. If you have the heroku toolbelt installed and setup, you can use the following command to initialize the database (DO NOT RUN UNLESS YOU WANT TO DELETE EVERYTHING):
@@ -32,6 +34,4 @@ TODO:
           highlighting, etc.)
         - Error handling for transcript.mak javacript to retrieve files
     BACK END:
-        - View that says "your meeting has ended, but you can view the transcript here" has to be done
-        - When a meeting ends, everyone must get kicked off of the chat and redirected to page described above
         - Error handling for /auth view
