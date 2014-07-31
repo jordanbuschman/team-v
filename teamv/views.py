@@ -49,7 +49,7 @@ def index(request):
         if response.status_code == 200 or response.status_code == 201 and 'nickname' in request.GET:
             result = mytemplate.render(title = 'Team Valente - Meeting {0}'.format(this_meeting), meeting = this_meeting, nickname = this_nickname)
         elif response.status_code == 403: # Meeting over
-	        return redirect(request, meeting = this_meeting)
+            return redirect(request, meeting = this_meeting)
         else: # Bad request, return not found
             return not_found(request)
     else:
@@ -151,12 +151,10 @@ def end_meeting(request):
         result = cur.fetchone()
 
         if result is None or result[0] is None or result[1] is not None: # Meeting you want to end does not exist
-	    cur.close()
+            cur.close()
             conn.close()
             return Response(status = '400 Bad Request')
         else: # Meeting is found, end meeting and move transcript to CDN
-	    
-
             cur.execute('UPDATE meetings SET time_finished = NOW() WHERE id = %s', (result[0], ))
             print 'UPDATE meetings SET time_finished = NOW() WHERE id = {0}'.format(result[0])
 
@@ -192,7 +190,7 @@ def end_meeting(request):
 
             cur.close()
             conn.close()
-	   
+       
             return Response(status = '200 OK')
     else:
         return Response(status = '400 Bad Request')
