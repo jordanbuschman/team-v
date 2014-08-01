@@ -97,7 +97,7 @@ $(document).ready(function() {
 
     socket.on("user_disconnect", function(e) {
         $("#chatlog").append(e + " has disconnected\n");
-        $("#" + e.replace(/\s+/g, '-')).remove();
+        $("#" + e.replace(/\s+/g, '-').toLowerCase()).remove();
         chatlog.scrollTop = chatlog.scrollHeight;
     });
 
