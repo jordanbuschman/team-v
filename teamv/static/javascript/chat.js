@@ -17,8 +17,13 @@ $(document).ready(function() {
     });
 
     socket.emit("join", meeting);
-    socket.emit("nickname", nickname);
 
+    socket.emit("nickname", nickname, function(nicks) {
+        nicknames = jQuery.parseJSON(nicks);
+        nicknames.forEach(function(e) {
+            $("#users-online").append("<tr id='" + e.replace(/\s+/g, '-').toLowerCase() + "'><td>" + e + "</td></tr>");
+        });
+    });
     var chatlog = document.getElementById('chatlog');
 
     // Compatibility Check
@@ -92,12 +97,14 @@ $(document).ready(function() {
 
     socket.on("user_disconnect", function(e) {
         $("#chatlog").append(e + " has disconnected\n");
+        $("#" + e.replace(/\s+/g, '-')).remove();
         chatlog.scrollTop = chatlog.scrollHeight;
     });
 
     socket.on("user_connect", function(e) {
         $("#chatlog").append(e + " has connected\n");
         chatlog.scrollTop = chatlog.scrollHeight;
+        $("#users-online").append("<tr id='" + e.replace(/\s+/g, '-').toLowerCase() + "'><td>" + e + "</td></tr>");
     });
 
     $("#chat_form").submit(function(e) {

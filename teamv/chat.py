@@ -2,7 +2,8 @@ from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
 from datetime import datetime
 
-import os, time
+import gevent
+import os, time, json
 
 class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     nicknames = []
@@ -23,6 +24,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     def on_nickname(self, nickname):
         current_time = time.strftime("%H:%M:%S")
         self.nicknames.append(nickname)
+        self.nicknames.sort();
         if self.start_time is None:
             self.start_time = time.strftime("%H:%M:%S")
 
@@ -32,6 +34,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         self.emit_to_room(self.room, 'user_connect', nickname)
         with open('teamv/templates/logs/log_{0}.log'.format(self.room), 'a') as f:
             f.write('({0}) {1} connected\n'.format(time_elapsed, nickname))
+        return json.dumps(self.nicknames)
 
     def on_end(self):
         self.emit_to_room(self.room, 'end')

@@ -135,14 +135,7 @@
        <h3>Participants</h3><br height: .5em;>
     <table class="table table-striped">
         <thead></thead>
-        <tbody>
-        <tr>
-                <td>Rahul Daware</td>
-           
-             </tr>
-             <tr>
-                <td>Andrew Green</td>
-            </tr>
+        <tbody id="users-online">
         </tbody>
     </table>
     </div>
