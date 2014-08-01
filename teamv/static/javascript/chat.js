@@ -104,7 +104,16 @@ $(document).ready(function() {
     socket.on("user_connect", function(e) {
         $("#chatlog").append(e + " has connected\n");
         chatlog.scrollTop = chatlog.scrollHeight;
-        $("#users-online").append("<tr id='" + e.replace(/\s+/g, '-').toLowerCase() + "'><td>" + e + "</td></tr>");
+        var new_user = e.replace(/\s+/g, '-');
+        $("#users-online").children("tr").each(function() {
+            if (e <= $(this).children("td").html()) {
+                $(this).before("<tr id='" + new_user.toLowerCase() + "'><td>" + new_user + "</td></tr>");
+                return false;
+            }
+        });
+        if (e > $("#users-online").last("td").html()) {
+            $("#users-online").append("<tr id='" + new_user.toLowerCase() + "'><td>" + new_user + "</td></tr>");
+        }
     });
 
     $("#chat_form").submit(function(e) {
