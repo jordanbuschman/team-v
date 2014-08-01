@@ -105,12 +105,12 @@ $(document).ready(function() {
         $("#chatlog").append(e + " has connected\n");
         chatlog.scrollTop = chatlog.scrollHeight;
         var new_user = e.replace(/\s+/g, '-');
-        if (e > $("#users-online").last("td").html()) {
+        if (e > $("#users-online>tr:last>td").html()) {
             $("#users-online").append("<tr id='" + new_user.toLowerCase() + "'><td>" + e + "</td></tr>");
         }
         else {
             $("#users-online").children("tr").each(function() {
-               if (e <= $(this).children("td").html()) {
+                if (e <= $(this).children().html()) {
                     $(this).before("<tr id='" + new_user.toLowerCase() + "'><td>" + e + "</td></tr>");
                     return false;
                 }
