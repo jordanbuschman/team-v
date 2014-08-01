@@ -105,14 +105,16 @@ $(document).ready(function() {
         $("#chatlog").append(e + " has connected\n");
         chatlog.scrollTop = chatlog.scrollHeight;
         var new_user = e.replace(/\s+/g, '-');
-        $("#users-online").children("tr").each(function() {
-            if (e <= $(this).children("td").html()) {
-                $(this).before("<tr id='" + new_user.toLowerCase() + "'><td>" + new_user + "</td></tr>");
-                return false;
-            }
-        });
         if (e > $("#users-online").last("td").html()) {
             $("#users-online").append("<tr id='" + new_user.toLowerCase() + "'><td>" + e + "</td></tr>");
+        }
+        else {
+            $("#users-online").children("tr").each(function() {
+               if (e <= $(this).children("td").html()) {
+                    $(this).before("<tr id='" + new_user.toLowerCase() + "'><td>" + e + "</td></tr>");
+                    return false;
+                }
+            });
         }
     });
 
