@@ -112,7 +112,7 @@ $(document).ready(function() {
             }
         });
         if (e > $("#users-online").last("td").html()) {
-            $("#users-online").append("<tr id='" + new_user.toLowerCase() + "'><td>" + new_user + "</td></tr>");
+            $("#users-online").append("<tr id='" + new_user.toLowerCase() + "'><td>" + e + "</td></tr>");
         }
     });
 
