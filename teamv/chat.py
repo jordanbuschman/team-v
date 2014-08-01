@@ -7,7 +7,7 @@ import os, time, json
 
 class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     nicknames = []
-    start_time = None
+    start_time = time.strftime("%H:%M:%S")
 
     def on_chat(self, msg):
         current_time = time.strftime("%H:%M:%S")
@@ -25,8 +25,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         current_time = time.strftime("%H:%M:%S")
         self.nicknames.append(nickname)
         self.nicknames.sort();
-        if self.start_time is None:
-            self.start_time = time.strftime("%H:%M:%S")
 
         time_elapsed = datetime.strptime(current_time, '%H:%M:%S') - datetime.strptime(self.start_time, '%H:%M:%S')
 
